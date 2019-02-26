@@ -6,6 +6,7 @@ import { green, lightGreen, red } from '@material-ui/core/colors';
 import Login from './components/login/Login';
 import withStyles from '@material-ui/core/styles/withStyles';
 import queryString from 'querystring';
+import Search from './components/search/Search';
 
 const theme = createMuiTheme({
     palette: {
@@ -68,7 +69,7 @@ class App extends Component {
                 <Router>
                     <div className={`App ${this.props.classes.root}`}>
                         <Navbar logout={this.logout} isLoggedIn={this.state.isLoggedIn}/>
-                        <Route exact path="/" component={this.state.isLoggedIn ? void 0 : Login}/>
+                        <Route exact path="/" component={this.state.isLoggedIn ? Search : Login}/>
                     </div>
                 </Router>
             </MuiThemeProvider>
