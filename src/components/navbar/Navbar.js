@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
 import './Navbar.scss';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Button, Toolbar, Typography } from '@material-ui/core';
 
 class Navbar extends Component {
+
+    logout = () => {
+        this.props.logout();
+    }
+
     render() {
+        console.log(this.props);
         return (
             <header className="nav-container">
-                <AppBar position="static">
-                    <Toolbar className="title">
-                        <Typography variant="h5" color="inherit">
-                            Spotify Artist Search
-                        </Typography>
+                <AppBar position="static" color="inherit">
+                    <Toolbar className="navbar">
+                        <div className="title">
+                            <img src="assets/images/spotify-logo/spotify-logo-green.png" alt="Spotify Icon" className="spotify-logo"/>
+                            <Typography variant="h5" color="inherit">
+                                Artist Search
+                            </Typography>
+                        </div>
+                        <div className="buttons">
+                            {this.props.isLoggedIn ? <Button onClick={this.logout} variant="text">Logout</Button> : null}
+                        </div>
                     </Toolbar>
                 </AppBar>
             </header>

@@ -2,10 +2,15 @@
     box-sizing: border-box;
 }
 
-body {
+html, body, #root, .App {
+    height: 100%;
     margin: 0;
     padding: 0;
+}
+
+body {
     font-family: Roboto, Helvetica, sans-serif;
+    background-color: #f4f4f4;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
