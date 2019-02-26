@@ -25,16 +25,41 @@ const style = {
     }
 };
 
+const TOKEN_KEY = 'access-token';
+
 class App extends Component {
+
     state = {
-        isLoggedIn: false
+        isLoggedIn: this.isLoggedIn()
+    };
+
+    getAccessToken() {
+        return window.localStorage.getItem(TOKEN_KEY);
+    }
+
+    setAccessToken(token) {
+        this.setState({
+            isLoggedIn: true
+        });
+        return window.localStorage.setItem(TOKEN_KEY, token);
+    }
+
+    isLoggedIn() {
+        return !!this.getAccessToken();
+    };
+
+    logout = () => {
+        window.localStorage.clear();
+        this.setState({
+            isLoggedIn: false
+        });
     };
 
     componentDidMount() {
         const params = queryString.parse(window.location.hash.slice(1));            // slice(1) to ignore leading #
-    if (params.access_token && typeof params.access_token === 'string') {
-        window.localStorage.setItem('access-token', params.access_token);
-    }
+        if (params.access_token && typeof params.access_token === 'string') {
+            this.setAccessToken(params.access_token);
+        }
     }
 
     render() {
@@ -42,7 +67,7 @@ class App extends Component {
             <MuiThemeProvider theme={theme}>
                 <Router>
                     <div className={`App ${this.props.classes.root}`}>
-                        <Navbar/>
+                        <Navbar logout={this.logout} isLoggedIn={this.state.isLoggedIn}/>
                         <Route exact path="/" component={this.state.isLoggedIn ? void 0 : Login}/>
                     </div>
                 </Router>

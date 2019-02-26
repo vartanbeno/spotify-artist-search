@@ -3,19 +3,13 @@ import './Navbar.scss';
 import { AppBar, Button, Toolbar, Typography } from '@material-ui/core';
 
 class Navbar extends Component {
-    state = {
-        isLoggedIn: this.isLoggedIn()
-    };
 
-    isLoggedIn() {
-        return !!localStorage.getItem('access-token');
-    }
-
-    logout() {
-        window.localStorage.clear();
+    logout = () => {
+        this.props.logout();
     }
 
     render() {
+        console.log(this.props);
         return (
             <header className="nav-container">
                 <AppBar position="static" color="inherit">
@@ -27,7 +21,7 @@ class Navbar extends Component {
                             </Typography>
                         </div>
                         <div className="buttons">
-                            {this.state.isLoggedIn ? <Button onClick={this.logout} variant="flat">Logout</Button> : null}
+                            {this.props.isLoggedIn ? <Button onClick={this.logout} variant="text">Logout</Button> : null}
                         </div>
                     </Toolbar>
                 </AppBar>
