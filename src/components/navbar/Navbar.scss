@@ -1,5 +1,26 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+
+    .title {
+        display: flex;
+        align-items: center;
+
+        .spotify-logo {
+            height: 36px;
+            width: auto;
+            padding-right: 2px;
+        }
+    }
+}
+
 @media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        padding: 8px 0;
+    }
     .title {
         justify-content: center;
+        padding-bottom: 8px;
     }
 }
