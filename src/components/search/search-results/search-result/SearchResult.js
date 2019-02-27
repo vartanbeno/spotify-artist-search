@@ -9,6 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { CardActions } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import PeopleIcon from '@material-ui/icons/People';
 
 const style = theme => createStyles({
     card: {
@@ -31,8 +32,8 @@ class SearchResult extends Component {
             <Card className={this.props.classes.card} elevation={3}>
                 <CardMedia className={this.props.classes.media} image={image ? image : 'assets/images/artist-default.png'} title={name}/>
                 <CardContent>
-                    <Typography variant="h6">{name}</Typography>
-                    <Typography variant="body2">Followers: {numberOfFollowers.toLocaleString()}</Typography>
+                    <Typography variant="h6" noWrap>{name}</Typography>
+                    <Typography variant="body2" style={{ display: 'flex', alignItems: 'center' }}><PeopleIcon/>&nbsp;Followers: {numberOfFollowers.toLocaleString()}</Typography>
                 </CardContent>
                 <CardActions style={{ padding: 16 }}>
                     {[...Array(stars)].map((e, i) => <StarIcon key={i} color="primary" style={{ margin: 0 }}/>)}

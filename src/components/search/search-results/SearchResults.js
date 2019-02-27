@@ -25,9 +25,9 @@ class SearchResults extends Component {
 
     render() {
         return (
-            <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', padding: 32 }}>
+            <div style={{ display: 'grid', gridGap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', padding: 32 }}>
                 {this.props.artists.map(artist => (
-                    <div key={artist.id} style={{ margin: '0 8px 16px 8px' }}>
+                    <div key={artist.id} style={{ display: 'flex', justifyContent: 'center' }}>
                         <SearchResult artist={artist}/>
                     </div>
                 ))}
