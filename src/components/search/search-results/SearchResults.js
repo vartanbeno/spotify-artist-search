@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import './SearchResults.scss';
 import queryString from "querystring";
-import axios from 'axios';
+import SearchResult from './search-result/SearchResult';
 
 class SearchResults extends Component {
 
     state = {
-        q: '',
-        artists: []
+        q: ''
     };
 
     componentDidMount() {
@@ -15,33 +14,25 @@ class SearchResults extends Component {
             q: queryString.parse(window.location.search.slice(1)).q
         }, () => {
             if (this.state.q) {
-                this.searchArtists(this.state.q);
+                this.searchArtists(queryString.parse(window.location.search.slice(1)).q);
             }
         });
     }
 
-    getSearchEndpoint(artist, limit) {
-        return `https://api.spotify.com/v1/search?q=${artist}&type=artist&limit=${limit}`;
-    }
-
-    searchArtists(query) {
-        axios.get(this.getSearchEndpoint(query, 5), this.props.authorizationHeader).then(
-            res => this.setState({
-                artists: res.data.artists.items
-            }),
-            err => {
-                // todo: check if 401
-            }
-        );
-    }
+    searchArtists = (query) => {
+        this.props.searchArtists(query);
+    };
 
     render() {
         return (
-            <main className="search-container">
-                <h3>{this.state.q}</h3>
-                {this.state.artists.map(artist => <h4 key={artist.id}>{artist.name}</h4>)}
-            </main>
-        );
+            <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', padding: 32 }}>
+                {this.props.artists.map(artist => (
+                    <div key={artist.id} style={{ margin: '0 8px 16px 8px' }}>
+                        <SearchResult artist={artist}/>
+                    </div>
+                ))}
+            </div>
+        )
     }
 }
 

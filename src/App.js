@@ -8,6 +8,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import queryString from 'querystring';
 import Search from './components/search/Search';
 import SearchResults from './components/search/search-results/SearchResults';
+import axios from 'axios';
+import Artist from './models/Artist';
 
 const theme = createMuiTheme({
     palette: {
@@ -32,8 +34,16 @@ const TOKEN_KEY = 'access-token';
 class App extends Component {
 
     state = {
-        isLoggedIn: this.isLoggedIn()
+        isLoggedIn: this.isLoggedIn(),
+        searchResults: []
     };
+
+    componentDidMount() {
+        const params = queryString.parse(window.location.hash.slice(1));            // slice(1) to ignore leading #
+        if (params.access_token && typeof params.access_token === 'string') {
+            this.setAccessToken(params.access_token);
+        }
+    }
 
     getAccessToken() {
         return window.localStorage.getItem(TOKEN_KEY);
@@ -65,12 +75,33 @@ class App extends Component {
         };
     };
 
-    componentDidMount() {
-        const params = queryString.parse(window.location.hash.slice(1));            // slice(1) to ignore leading #
-        if (params.access_token && typeof params.access_token === 'string') {
-            this.setAccessToken(params.access_token);
-        }
-    }
+    getSearchEndpoint = (artist, limit) => {
+        return `https://api.spotify.com/v1/search?q=${artist}&type=artist&limit=${limit}`;
+    };
+
+    searchArtists = (query) => {
+        axios.get(this.getSearchEndpoint(query, 10), this.getAuthorizationHeader()).then(
+            res => {
+
+                const artists = [];
+                res.data.artists.items.forEach(artist => {
+
+                    const { id, name, images, followers, popularity } = artist;
+                    const image = images.length ? images[0].url : null;
+
+                    artists.push(new Artist(id, name, image, followers.total, popularity));
+
+                });
+
+                this.setState({
+                    searchResults: artists
+                });
+            },
+            err => {
+                // todo: check if 401
+            }
+        );
+    };
 
     render() {
         return (
@@ -79,9 +110,8 @@ class App extends Component {
                     <div className={`App ${this.props.classes.root}`}>
                         <Navbar logout={this.logout} isLoggedIn={this.state.isLoggedIn}/>
                         <Route exact path="/" component={this.state.isLoggedIn ? Search : Login}/>
-                        {/*<Route exact path="/search" component={this.state.isLoggedIn ? SearchResults : void 0}/>*/}
                         <Route exact path="/search" render={props => (
-                            this.state.isLoggedIn ? <SearchResults authorizationHeader={this.getAuthorizationHeader()}/> : null
+                            this.state.isLoggedIn ? <SearchResults searchArtists={this.searchArtists} artists={this.state.searchResults}/> : null
                         )}/>
                     </div>
                 </Router>
