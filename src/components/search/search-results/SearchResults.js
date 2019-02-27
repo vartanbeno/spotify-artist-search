@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './SearchResults.scss';
 import queryString from "querystring";
 import SearchResult from './search-result/SearchResult';
+import Loader from '../../loader/Loader';
 
 class SearchResults extends Component {
 
@@ -27,7 +28,7 @@ class SearchResults extends Component {
     };
 
     render() {
-        return (
+        return this.props.artists ? (
             <div style={{ display: 'grid', gridGap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', padding: 32 }}>
                 {this.props.artists.map(artist => (
                     <div key={artist.id} style={{ display: 'flex', justifyContent: 'center' }}>
@@ -35,7 +36,7 @@ class SearchResults extends Component {
                     </div>
                 ))}
             </div>
-        )
+        ) : <Loader/>
     }
 }
 

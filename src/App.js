@@ -35,7 +35,7 @@ class App extends Component {
 
     state = {
         isLoggedIn: this.isLoggedIn(),
-        searchResults: []
+        searchResults: null
     };
 
     componentDidMount() {
@@ -81,7 +81,7 @@ class App extends Component {
 
     searchArtists = (query, limit) => {
         this.setState({
-            searchResults: []
+            searchResults: null
         });
 
         axios.get(this.getSearchEndpoint(query, limit), this.getAuthorizationHeader()).then(
@@ -102,7 +102,7 @@ class App extends Component {
                 });
             },
             err => {
-                // todo: check if 401
+                console.log(err);
             }
         );
     };
