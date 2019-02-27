@@ -1,5 +1,3 @@
 {
-  "clientId": "Place your client id here",
-  "redirectUri": "http://localhost:3000",
-  "responseType": "token"
+  "clientId": "Place your client id here"
 }
