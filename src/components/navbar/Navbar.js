@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Navbar.scss';
 import { AppBar, Button, Toolbar, Typography } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 class Navbar extends Component {
 
@@ -13,14 +14,14 @@ class Navbar extends Component {
             <header className="nav-container">
                 <AppBar position="static" color="inherit">
                     <Toolbar className="navbar">
-                        <a href="/" className="title">
+                        <Link to="/" className="title link">
                             <img src="assets/images/spotify-logo/spotify-logo-green.png" alt="Spotify Icon" className="spotify-logo"/>
                             <Typography variant="h5" color="inherit">
                                 Artist Search
                             </Typography>
-                        </a>
+                        </Link>
                         <div className="buttons">
-                            {this.props.isLoggedIn ? <Button onClick={this.logout} variant="text" href="/">Logout</Button> : null}
+                            {this.props.isLoggedIn ? <Link to="/" className="link"><Button onClick={this.logout} variant="text">Logout</Button></Link> : null}
                         </div>
                     </Toolbar>
                 </AppBar>

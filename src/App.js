@@ -80,6 +80,10 @@ class App extends Component {
     };
 
     searchArtists = (query) => {
+        this.setState({
+            searchResults: []
+        });
+
         axios.get(this.getSearchEndpoint(query, 10), this.getAuthorizationHeader()).then(
             res => {
 

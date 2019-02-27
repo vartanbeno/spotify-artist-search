@@ -5,14 +5,17 @@
     .title {
         display: flex;
         align-items: center;
-        color: inherit;
-        text-decoration: none;
 
         .spotify-logo {
             height: 36px;
             width: auto;
             padding-right: 2px;
         }
+    }
+
+    .link {
+        text-decoration: none;
+        color: inherit;
     }
 }
 
