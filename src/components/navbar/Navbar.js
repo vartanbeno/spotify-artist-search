@@ -6,10 +6,9 @@ class Navbar extends Component {
 
     logout = () => {
         this.props.logout();
-    }
+    };
 
     render() {
-        console.log(this.props);
         return (
             <header className="nav-container">
                 <AppBar position="static" color="inherit">
