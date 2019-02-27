@@ -13,14 +13,14 @@ class Navbar extends Component {
             <header className="nav-container">
                 <AppBar position="static" color="inherit">
                     <Toolbar className="navbar">
-                        <div className="title">
+                        <a href="/" className="title">
                             <img src="assets/images/spotify-logo/spotify-logo-green.png" alt="Spotify Icon" className="spotify-logo"/>
                             <Typography variant="h5" color="inherit">
                                 Artist Search
                             </Typography>
-                        </div>
+                        </a>
                         <div className="buttons">
-                            {this.props.isLoggedIn ? <Button onClick={this.logout} variant="text">Logout</Button> : null}
+                            {this.props.isLoggedIn ? <Button onClick={this.logout} variant="text" href="/">Logout</Button> : null}
                         </div>
                     </Toolbar>
                 </AppBar>

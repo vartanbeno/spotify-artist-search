@@ -7,6 +7,7 @@ import Login from './components/login/Login';
 import withStyles from '@material-ui/core/styles/withStyles';
 import queryString from 'querystring';
 import Search from './components/search/Search';
+import SearchResults from './components/search/search-results/SearchResults';
 
 const theme = createMuiTheme({
     palette: {
@@ -56,6 +57,14 @@ class App extends Component {
         });
     };
 
+    getAuthorizationHeader = () => {
+        return {
+            headers: {
+                Authorization: `Bearer ${this.getAccessToken()}`
+            }
+        };
+    };
+
     componentDidMount() {
         const params = queryString.parse(window.location.hash.slice(1));            // slice(1) to ignore leading #
         if (params.access_token && typeof params.access_token === 'string') {
@@ -70,6 +79,10 @@ class App extends Component {
                     <div className={`App ${this.props.classes.root}`}>
                         <Navbar logout={this.logout} isLoggedIn={this.state.isLoggedIn}/>
                         <Route exact path="/" component={this.state.isLoggedIn ? Search : Login}/>
+                        {/*<Route exact path="/search" component={this.state.isLoggedIn ? SearchResults : void 0}/>*/}
+                        <Route exact path="/search" render={props => (
+                            this.state.isLoggedIn ? <SearchResults authorizationHeader={this.getAuthorizationHeader()}/> : null
+                        )}/>
                     </div>
                 </Router>
             </MuiThemeProvider>
