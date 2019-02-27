@@ -35,6 +35,7 @@ class Search extends Component {
                             name="q"
                             variant="outlined"
                             autoComplete="off"
+                            autoFocus={true}
                             onChange={this.searchChange}
                             InputProps={{
                                 endAdornment: (
