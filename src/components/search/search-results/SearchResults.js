@@ -6,21 +6,24 @@ import SearchResult from './search-result/SearchResult';
 class SearchResults extends Component {
 
     state = {
-        q: ''
+        q: '',
+        limit: 10
     };
 
     componentDidMount() {
+        const params = queryString.parse(window.location.search.slice(1));
         this.setState({
-            q: queryString.parse(window.location.search.slice(1)).q
+            q: params.q,
+            limit: Number(params.limit)
         }, () => {
             if (this.state.q) {
-                this.searchArtists(queryString.parse(window.location.search.slice(1)).q);
+                this.searchArtists(this.state.q, this.state.limit);
             }
         });
     }
 
-    searchArtists = (query) => {
-        this.props.searchArtists(query);
+    searchArtists = (query, limit) => {
+        this.props.searchArtists(query, limit);
     };
 
     render() {
