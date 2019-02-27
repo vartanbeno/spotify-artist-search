@@ -21,10 +21,10 @@ const style = (theme) => createStyles({
     }
 });
 
-const { clientId, redirectUri, responseType } = config;
+const { clientId } = config;
 
 const authorization = `
-    https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}
+    https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${window.location.origin}&response_type=token
 `;
 
 class Login extends Component {

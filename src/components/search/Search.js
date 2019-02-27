@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { InputAdornment } from '@material-ui/core';
+import { FormControlLabel, InputAdornment, Radio, RadioGroup } from '@material-ui/core';
 import './Search.scss';
 import TextField from '@material-ui/core/TextField';
 import SearchOutlined from '@material-ui/icons/SearchOutlined';
@@ -7,21 +7,25 @@ import SearchOutlined from '@material-ui/icons/SearchOutlined';
 class Search extends Component {
 
     state = {
-        q: ''
+        q: '',
+        limit: '10'
     };
 
-    searchChange = (e) => {
+    setLimit = e => {
+        this.setState({
+            limit: e.target.value
+        });
+    };
+
+    searchChange = e => {
         this.setState({
             [e.target.name]: e.target.value
         });
     };
 
-    submitSearch = (e) => {
+    submitSearch = e => {
         e.preventDefault();
-        this.props.history.push('/search?q=' + this.state.q);
-        this.setState({
-            q: ''
-        });
+        this.props.history.push(`/search?q=${this.state.q}&limit=${this.state.limit}`);
     };
 
     render() {
@@ -31,12 +35,13 @@ class Search extends Component {
                     <form onSubmit={this.submitSearch}>
                         <TextField
                             fullWidth={true}
-                            label="Search for an Artist"
+                            placeholder="Search for an Artist"
                             name="q"
                             variant="outlined"
                             autoComplete="off"
                             autoFocus={true}
                             onChange={this.searchChange}
+                            style={{ backgroundColor: '#fff', borderRadius: '4px', boxShadow: '0 1px 5px rgba(104, 104, 104, 0.8)' }}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -44,6 +49,11 @@ class Search extends Component {
                                     </InputAdornment>
                                 )
                             }}/>
+                        <RadioGroup style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} value={this.state.limit} onChange={this.setLimit}>
+                            <FormControlLabel control={<Radio color="primary"/>} label="10 results" value="10"/>
+                            <FormControlLabel control={<Radio color="primary"/>} label="20 results" value="20"/>
+                            <FormControlLabel control={<Radio color="primary"/>} label="50 results" value="50"/>
+                        </RadioGroup>
                     </form>
                 </div>
             </main>
