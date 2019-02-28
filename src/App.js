@@ -2,19 +2,25 @@ import React, { Component } from 'react';
 import Navbar from './components/navbar/Navbar';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
-import { green, lightGreen, red } from '@material-ui/core/colors';
+import { lightGreen, red } from '@material-ui/core/colors';
 import Login from './components/login/Login';
-import withStyles from '@material-ui/core/styles/withStyles';
 import Search from './components/search/Search';
 import SearchResults from './components/search/search-results/SearchResults';
 import Artist from './models/Artist';
 import SpotifyService from './services/SpotifyService';
 import AuthService from './services/AuthService';
 import './App.scss';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const theme = createMuiTheme({
     palette: {
-        primary: green,
+        primary: {
+            /**
+             * Spotify's official green
+             * Source: https://developer.spotify.com/branding-guidelines/
+             */
+            main: '#1DB954'
+        },
         secondary: lightGreen,
         error: red
     },
@@ -23,18 +29,13 @@ const theme = createMuiTheme({
     }
 });
 
-const style = {
-    root: {
-        display: 'flex',
-        flexFlow: 'column',
-    }
-};
-
 class App extends Component {
 
     state = {
         isLoggedIn: AuthService.isLoggedIn(),
-        searchResults: null
+        searchResults: null,
+        snackbarOpen: false,
+        snackbarMessage: ''
     };
 
     componentDidMount() {
@@ -58,7 +59,17 @@ class App extends Component {
         });
     };
 
-    searchArtists = async (query, limit) => {
+    searchArtists = (query, limit) => {
+
+        if (!query.trim()) {
+            this.setState({
+                searchResults: [],
+                snackbarOpen: true,
+                snackbarMessage: 'Your search doesn\'t contain anything!'
+            });
+            return;
+        }
+
         this.setState({
             searchResults: null
         });
@@ -80,19 +91,35 @@ class App extends Component {
                     searchResults: artists
                 });
 
+                if (!artists.length) {
+                    this.setState({
+                        snackbarOpen: true,
+                        snackbarMessage: 'You search didn\'t return any results.'
+                    });
+                }
+
             },
             err => {
-                // todo display error message if token invalid
-                console.log(err);
+                this.setState({
+                    searchResults: [],
+                    snackbarOpen: true,
+                    snackbarMessage: err.response.data.error.message
+                });
             }
         );
+    };
+
+    closeSnackbar = (e, reason) => {
+        if (reason !== 'clickaway') {
+            this.setState({ snackbarOpen: false });
+        }
     };
 
     render() {
         return (
             <MuiThemeProvider theme={theme}>
                 <Router>
-                    <div className={`App ${this.props.classes.root}`}>
+                    <div className="App">
                         <Navbar logout={this.logout} isLoggedIn={this.state.isLoggedIn}/>
                         <Route exact path="/" render={props => (
                             this.state.isLoggedIn ?
@@ -107,9 +134,19 @@ class App extends Component {
                         )}/>
                     </div>
                 </Router>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                    }}
+                    open={this.state.snackbarOpen}
+                    autoHideDuration={3000}
+                    onClose={this.closeSnackbar}
+                    message={<span>{this.state.snackbarMessage}</span>}
+                />
             </MuiThemeProvider>
         );
     }
 }
 
-export default withStyles(style)(App);
+export default App;

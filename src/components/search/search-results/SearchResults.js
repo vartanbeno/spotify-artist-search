@@ -3,13 +3,12 @@ import './SearchResults.scss';
 import SearchResult from './search-result/SearchResult';
 import Loader from '../../loader/Loader';
 import SpotifyService from '../../../services/SpotifyService';
-import { Typography } from '@material-ui/core';
 import Search from '../Search';
 
 class SearchResults extends Component {
 
     state = {
-        q: '',
+        q: null,
         limit: 10
     };
 
@@ -20,13 +19,9 @@ class SearchResults extends Component {
     searchArtists = () => {
         const { q, limit } = SpotifyService.getQueryAndLimitParameters();
         this.setState({
-            q: q,
+            q: q || '',
             limit: Number(limit)
-        }, () => {
-            if (this.state.q) {
-                this.props.searchArtists(this.state.q, this.state.limit);
-            }
-        });
+        }, () => this.props.searchArtists(this.state.q, this.state.limit));
     };
 
     render() {
@@ -36,7 +31,7 @@ class SearchResults extends Component {
         return (
             <div className="search-results-container">
                 <div className="search-field">
-                    {this.state.q ? <Search query={this.state.q} searchArtists={this.searchArtists}/> : null}
+                    {this.state.q != null ? <Search query={this.state.q} searchArtists={this.searchArtists}/> : null}
                 </div>
                 {
                     artists ?
