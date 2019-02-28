@@ -91,6 +91,13 @@ class App extends Component {
                     searchResults: artists
                 });
 
+                if (!artists.length) {
+                    this.setState({
+                        snackbarOpen: true,
+                        snackbarMessage: 'You search didn\'t return any results.'
+                    });
+                }
+
             },
             err => {
                 this.setState({
