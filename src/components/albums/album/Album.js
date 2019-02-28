@@ -9,6 +9,11 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import { Link } from 'react-router-dom';
 
 class Album extends Component {
+
+    changeArtist = e => {
+        this.props.changeArtist(e.target.id);
+    };
+
     render() {
 
         const { name, artists, numberOfTracks, releaseDate, image, url } = this.props.album;
@@ -21,7 +26,11 @@ class Album extends Component {
                         <div>
                             <Typography variant="h6" noWrap>{name}</Typography>
                             <div className="album-artists">
-                                {artists.map(artist => <Typography key={artist.id} variant="body2" color="primary" noWrap><Link to={`/artist/${artist.id}/albums`}>{artist.name}</Link></Typography>)}
+                                {artists.map(artist =>
+                                    <Typography key={artist.id} variant="body2" color="primary" noWrap>
+                                        <Link to={`/artist/${artist.id}/albums`} onClick={this.changeArtist} id={artist.id}>{artist.name}</Link>
+                                    </Typography>
+                                )}
                             </div>
                         </div>
                         <div>
