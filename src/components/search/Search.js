@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormControlLabel, InputAdornment, Radio, RadioGroup } from '@material-ui/core';
+import { FormControlLabel, IconButton, InputAdornment, Radio, RadioGroup } from '@material-ui/core';
 import './Search.scss';
 import TextField from '@material-ui/core/TextField';
 import SearchOutlined from '@material-ui/icons/SearchOutlined';
@@ -11,15 +11,15 @@ class Search extends Component {
         limit: '10'
     };
 
-    setLimit = e => {
+    setQuery = e => {
         this.setState({
-            limit: e.target.value
+            [e.target.name]: e.target.value
         });
     };
 
-    searchChange = e => {
+    setLimit = e => {
         this.setState({
-            [e.target.name]: e.target.value
+            limit: e.target.value
         });
     };
 
@@ -31,25 +31,27 @@ class Search extends Component {
     render() {
         return (
             <main className="search-container">
-                <div className="search-input">
+                <div className="search-input-container">
                     <form onSubmit={this.submitSearch}>
                         <TextField
+                            className="search-input"
                             fullWidth={true}
                             placeholder="Search for an Artist"
                             name="q"
                             variant="outlined"
                             autoComplete="off"
                             autoFocus={true}
-                            onChange={this.searchChange}
-                            style={{ backgroundColor: '#fff', borderRadius: '4px', boxShadow: '0 1px 5px rgba(104, 104, 104, 0.8)' }}
+                            onChange={this.setQuery}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
-                                        <SearchOutlined/>
+                                        <IconButton onClick={this.submitSearch}>
+                                            <SearchOutlined/>
+                                        </IconButton>
                                     </InputAdornment>
                                 )
                             }}/>
-                        <RadioGroup style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} value={this.state.limit} onChange={this.setLimit}>
+                        <RadioGroup className="radio-buttons-container" value={this.state.limit} onChange={this.setLimit}>
                             <FormControlLabel control={<Radio color="primary"/>} label="10 results" value="10"/>
                             <FormControlLabel control={<Radio color="primary"/>} label="20 results" value="20"/>
                             <FormControlLabel control={<Radio color="primary"/>} label="50 results" value="50"/>

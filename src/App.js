@@ -5,11 +5,11 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { green, lightGreen, red } from '@material-ui/core/colors';
 import Login from './components/login/Login';
 import withStyles from '@material-ui/core/styles/withStyles';
-import queryString from 'querystring';
 import Search from './components/search/Search';
 import SearchResults from './components/search/search-results/SearchResults';
-import axios from 'axios';
 import Artist from './models/Artist';
+import SpotifyService from './services/SpotifyService';
+import AuthService from './services/AuthService';
 
 const theme = createMuiTheme({
     palette: {
@@ -29,62 +29,40 @@ const style = {
     }
 };
 
-const TOKEN_KEY = 'access-token';
-
 class App extends Component {
 
     state = {
-        isLoggedIn: this.isLoggedIn(),
+        isLoggedIn: AuthService.isLoggedIn(),
         searchResults: null
     };
 
     componentDidMount() {
-        const params = queryString.parse(window.location.hash.slice(1));            // slice(1) to ignore leading #
-        if (params.access_token && typeof params.access_token === 'string') {
-            this.setAccessToken(params.access_token);
+        const token = AuthService.getAccessTokenFromRedirect();
+        if (token) {
+            this.setAccessToken(token);
         }
     }
 
-    getAccessToken() {
-        return window.localStorage.getItem(TOKEN_KEY);
-    }
-
     setAccessToken(token) {
+        AuthService.setAccessToken(token);
         this.setState({
             isLoggedIn: true
         });
-        return window.localStorage.setItem(TOKEN_KEY, token);
     }
 
-    isLoggedIn() {
-        return !!this.getAccessToken();
-    };
-
     logout = () => {
-        window.localStorage.clear();
+        AuthService.logout();
         this.setState({
             isLoggedIn: false
         });
     };
 
-    getAuthorizationHeader = () => {
-        return {
-            headers: {
-                Authorization: `Bearer ${this.getAccessToken()}`
-            }
-        };
-    };
-
-    getSearchEndpoint = (artist, limit = 10) => {
-        return `https://api.spotify.com/v1/search?q=${artist}&type=artist&limit=${limit}`;
-    };
-
-    searchArtists = (query, limit) => {
+    searchArtists = async (query, limit) => {
         this.setState({
             searchResults: null
         });
 
-        axios.get(this.getSearchEndpoint(query, limit), this.getAuthorizationHeader()).then(
+        SpotifyService.searchArtists(query, limit).then(
             res => {
 
                 const artists = [];
@@ -100,6 +78,7 @@ class App extends Component {
                 this.setState({
                     searchResults: artists
                 });
+
             },
             err => {
                 console.log(err);

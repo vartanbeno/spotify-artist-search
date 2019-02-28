@@ -3,16 +3,13 @@ import { Paper, Typography } from '@material-ui/core';
 import './Login.scss';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles from '@material-ui/core/styles/withStyles';
-import config from '../../config/spotify.json';
+import AuthService from '../../services/AuthService';
 
-const style = (theme) => createStyles({
+const style = theme => createStyles({
     root: {
         ...theme.mixins.gutters(),
         paddingTop: theme.spacing.unit * 2,
         paddingBottom: theme.spacing.unit * 2
-    },
-    linkSection: {
-        paddingTop: '8px'
     },
     link: {
         color: theme.palette.primary.main,
@@ -21,13 +18,12 @@ const style = (theme) => createStyles({
     }
 });
 
-const { clientId } = config;
-
-const authorization = `
-    https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${window.location.origin}&response_type=token
-`;
-
 class Login extends Component {
+
+    login = () => {
+        return AuthService.AUTHORIZATION_URL;
+    };
+
     render() {
         return (
             <main className="login-container">
@@ -38,9 +34,9 @@ class Login extends Component {
                         </Typography>
                         <img src="assets/images/spotify-icon/spotify-icon-green.png" alt="Spotify Icon" className="spotify-icon"/>
                     </div>
-                    <Typography variant="body1" className={this.props.classes.linkSection}>
+                    <Typography variant="body1" className="link-container">
                         {/* Must use <a> tag instead of <Link> since it's an external link. */}
-                        Click <a href={authorization} className={this.props.classes.link}>here</a> to login.
+                        Click <a href={this.login()} className={this.props.classes.link}>here</a> to login.
                     </Typography>
                 </Paper>
             </main>
