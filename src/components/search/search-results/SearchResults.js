@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './SearchResults.scss';
-import queryString from "querystring";
 import SearchResult from './search-result/SearchResult';
 import Loader from '../../loader/Loader';
+import SpotifyService from '../../../services/SpotifyService';
 
 class SearchResults extends Component {
 
@@ -12,10 +12,10 @@ class SearchResults extends Component {
     };
 
     componentDidMount() {
-        const params = queryString.parse(window.location.search.slice(1));
+        const { q, limit } = SpotifyService.getQueryAndLimitParameters();
         this.setState({
-            q: params.q,
-            limit: Number(params.limit)
+            q: q,
+            limit: Number(limit)
         }, () => {
             if (this.state.q) {
                 this.searchArtists(this.state.q, this.state.limit);

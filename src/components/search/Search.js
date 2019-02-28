@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormControlLabel, InputAdornment, Radio, RadioGroup } from '@material-ui/core';
+import { FormControlLabel, IconButton, InputAdornment, Radio, RadioGroup } from '@material-ui/core';
 import './Search.scss';
 import TextField from '@material-ui/core/TextField';
 import SearchOutlined from '@material-ui/icons/SearchOutlined';
@@ -11,15 +11,15 @@ class Search extends Component {
         limit: '10'
     };
 
-    setLimit = e => {
+    setQuery = e => {
         this.setState({
-            limit: e.target.value
+            [e.target.name]: e.target.value
         });
     };
 
-    searchChange = e => {
+    setLimit = e => {
         this.setState({
-            [e.target.name]: e.target.value
+            limit: e.target.value
         });
     };
 
@@ -40,12 +40,14 @@ class Search extends Component {
                             variant="outlined"
                             autoComplete="off"
                             autoFocus={true}
-                            onChange={this.searchChange}
+                            onChange={this.setQuery}
                             style={{ backgroundColor: '#fff', borderRadius: '4px', boxShadow: '0 1px 5px rgba(104, 104, 104, 0.8)' }}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
-                                        <SearchOutlined/>
+                                        <IconButton onClick={this.submitSearch}>
+                                            <SearchOutlined/>
+                                        </IconButton>
                                     </InputAdornment>
                                 )
                             }}/>

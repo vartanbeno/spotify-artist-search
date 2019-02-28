@@ -1,7 +1,16 @@
 import axios from 'axios';
 import AuthService from './AuthService';
+import queryString from "querystring";
 
 export default class SpotifyService {
+
+    static getQueryAndLimitParameters() {
+        const params = queryString.parse(window.location.search.slice(1));
+        return {
+            q: params.q,
+            limit: params.limit
+        }
+    }
 
     static getSearchArtistsEndpoint(query, limit) {
         return `https://api.spotify.com/v1/search?q=${query}&type=artist&limit=${limit}`;
