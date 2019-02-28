@@ -1,22 +1,44 @@
-.card {
+.album-card {
     width: 250px;
+    display: flex;
+    flex-direction: column;
 
     .album-picture {
         height: 0;
         padding-top: 100%;
     }
 
-    .album-info {
+    .album-title-and-info {
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        justify-content: space-between;
 
-        svg {
-            font-size: 20px;
-            margin-right: 4px;
+        .album-artists {
+            padding-bottom: 12px;
+
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+
+            a:hover, a:active {
+                text-decoration: underline;
+            }
+        }
+
+        .album-info {
+            display: flex;
+            align-items: center;
+
+            svg {
+                font-size: 20px;
+                margin-right: 4px;
+            }
         }
     }
 
     .album-preview {
+        border-top: 1px solid #f0f0f0;
         justify-content: center;
     }
 }
