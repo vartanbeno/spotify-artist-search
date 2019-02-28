@@ -3,6 +3,8 @@ import './SearchResults.scss';
 import SearchResult from './search-result/SearchResult';
 import Loader from '../../loader/Loader';
 import SpotifyService from '../../../services/SpotifyService';
+import { Typography } from '@material-ui/core';
+import Search from '../Search';
 
 class SearchResults extends Component {
 
@@ -28,13 +30,21 @@ class SearchResults extends Component {
     };
 
     render() {
-        return this.props.artists ? (
+
+        const { artists } = this.props;
+
+        return artists ? (
             <div className="search-results-container">
-                {this.props.artists.map(artist => (
-                    <div key={artist.id} className="search-result">
-                        <SearchResult artist={artist}/>
-                    </div>
-                ))}
+                <div className="search-field">
+                    <Search query={this.state.q}/>
+                </div>
+                <div className="search-results">
+                    {artists.map(artist => (
+                        <div key={artist.id} className="search-result">
+                            <SearchResult artist={artist}/>
+                        </div>
+                    ))}
+                </div>
             </div>
         ) : <Loader/>
     }
