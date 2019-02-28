@@ -27,6 +27,9 @@ class Search extends Component {
     submitSearch = e => {
         e.preventDefault();
         this.props.history.push(`/search?q=${this.state.q}&limit=${this.state.limit}`);
+        if (this.props.searchArtists) {
+            this.props.searchArtists();
+        }
     };
 
     render() {

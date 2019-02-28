@@ -14,39 +14,44 @@ class SearchResults extends Component {
     };
 
     componentDidMount() {
+        this.searchArtists();
+    }
+
+    searchArtists = () => {
         const { q, limit } = SpotifyService.getQueryAndLimitParameters();
         this.setState({
             q: q,
             limit: Number(limit)
         }, () => {
             if (this.state.q) {
-                this.searchArtists(this.state.q, this.state.limit);
+                this.props.searchArtists(this.state.q, this.state.limit);
             }
         });
-    }
-
-    searchArtists = (query, limit) => {
-        this.props.searchArtists(query, limit);
     };
 
     render() {
 
         const { artists } = this.props;
 
-        return artists ? (
+        return (
             <div className="search-results-container">
                 <div className="search-field">
-                    <Search query={this.state.q}/>
+                    {this.state.q ? <Search query={this.state.q} searchArtists={this.searchArtists}/> : null}
                 </div>
-                <div className="search-results">
-                    {artists.map(artist => (
-                        <div key={artist.id} className="search-result">
-                            <SearchResult artist={artist}/>
+                {
+                    artists ?
+                        <div className="search-results">
+                            {artists.map(artist => (
+                                <div key={artist.id} className="search-result">
+                                    <SearchResult artist={artist}/>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                        :
+                        <Loader/>
+                }
             </div>
-        ) : <Loader/>
+        )
     }
 }
 
