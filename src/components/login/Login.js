@@ -11,6 +11,9 @@ const style = theme => createStyles({
         paddingTop: theme.spacing.unit * 2,
         paddingBottom: theme.spacing.unit * 2
     },
+    spotify: {
+        color: theme.palette.primary.main
+    },
     link: {
         color: theme.palette.primary.main,
         fontWeight: 'bold',
@@ -30,7 +33,7 @@ class Login extends Component {
                 <Paper className={this.props.classes.root} elevation={3}>
                     <div className="login-header">
                         <Typography variant="h5">
-                            Login with Spotify
+                            Login with <span className={this.props.classes.spotify}>Spotify</span>
                         </Typography>
                         <img src="assets/images/spotify-icon/spotify-icon-green.png" alt="Spotify Icon" className="spotify-icon"/>
                     </div>

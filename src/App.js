@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import Navbar from './components/navbar/Navbar';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
-import { green, lightGreen, red } from '@material-ui/core/colors';
+import { lightGreen, red } from '@material-ui/core/colors';
 import Login from './components/login/Login';
-import withStyles from '@material-ui/core/styles/withStyles';
 import Search from './components/search/Search';
 import SearchResults from './components/search/search-results/SearchResults';
 import Artist from './models/Artist';
@@ -14,7 +13,13 @@ import './App.scss';
 
 const theme = createMuiTheme({
     palette: {
-        primary: green,
+        primary: {
+            /**
+             * Spotify's official green
+             * Source: https://developer.spotify.com/branding-guidelines/
+             */
+            main: '#1DB954'
+        },
         secondary: lightGreen,
         error: red
     },
@@ -22,13 +27,6 @@ const theme = createMuiTheme({
         useNextVariants: true
     }
 });
-
-const style = {
-    root: {
-        display: 'flex',
-        flexFlow: 'column',
-    }
-};
 
 class App extends Component {
 
@@ -92,7 +90,7 @@ class App extends Component {
         return (
             <MuiThemeProvider theme={theme}>
                 <Router>
-                    <div className={`App ${this.props.classes.root}`}>
+                    <div className="App">
                         <Navbar logout={this.logout} isLoggedIn={this.state.isLoggedIn}/>
                         <Route exact path="/" render={props => (
                             this.state.isLoggedIn ?
@@ -112,4 +110,4 @@ class App extends Component {
     }
 }
 
-export default withStyles(style)(App);
+export default App;
