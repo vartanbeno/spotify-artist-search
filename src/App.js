@@ -10,6 +10,7 @@ import SearchResults from './components/search/search-results/SearchResults';
 import Artist from './models/Artist';
 import SpotifyService from './services/SpotifyService';
 import AuthService from './services/AuthService';
+import './App.scss';
 
 const theme = createMuiTheme({
     palette: {
@@ -81,6 +82,7 @@ class App extends Component {
 
             },
             err => {
+                // todo display error message if token invalid
                 console.log(err);
             }
         );
@@ -92,7 +94,14 @@ class App extends Component {
                 <Router>
                     <div className={`App ${this.props.classes.root}`}>
                         <Navbar logout={this.logout} isLoggedIn={this.state.isLoggedIn}/>
-                        <Route exact path="/" component={this.state.isLoggedIn ? Search : Login}/>
+                        <Route exact path="/" render={props => (
+                            this.state.isLoggedIn ?
+                                <div className="search-container">
+                                    <Search/>
+                                </div>
+                                :
+                                <Login/>
+                        )}/>
                         <Route exact path="/search" render={props => (
                             this.state.isLoggedIn ? <SearchResults searchArtists={this.searchArtists} artists={this.state.searchResults}/> : null
                         )}/>
