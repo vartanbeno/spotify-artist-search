@@ -12,6 +12,10 @@ export default class SpotifyService {
         }
     }
 
+    static searchArtistById(id) {
+        return axios.get(`https://api.spotify.com/v1/artists/${id}`, AuthService.getAuthorizationHeader());
+    }
+
     static getSearchArtistsEndpoint(query, limit) {
         return `https://api.spotify.com/v1/search?q=${query}&type=artist&limit=${limit}`;
     }

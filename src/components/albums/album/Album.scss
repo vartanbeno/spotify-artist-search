@@ -1,12 +1,12 @@
 .card {
     width: 250px;
 
-    .artist-picture {
+    .album-picture {
         height: 0;
         padding-top: 100%;
     }
 
-    .artist-followers {
+    .album-info {
         display: flex;
         align-items: center;
 
@@ -16,11 +16,7 @@
         }
     }
 
-    .artist-stars {
-        padding: 1rem;
-
-        svg {
-            margin: 0;
-        }
+    .album-preview {
+        justify-content: center;
     }
 }

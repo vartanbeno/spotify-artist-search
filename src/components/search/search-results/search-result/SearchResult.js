@@ -8,21 +8,24 @@ import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import PeopleIcon from '@material-ui/icons/People';
 import './SearchResult.scss';
+import { Link } from 'react-router-dom';
 
 class SearchResult extends Component {
     render() {
 
-        const { name, image, numberOfFollowers, popularity } = this.props.artist;
+        const { id, name, image, numberOfFollowers, popularity } = this.props.artist;
         const stars = Math.ceil(popularity/20) || 1;
 
         return (
             <Card className="card" elevation={3}>
                 <CardActionArea>
-                    <CardMedia className="artist-picture" image={image ? image : 'assets/images/artist-default.png'} title={name}/>
-                    <CardContent>
-                        <Typography variant="h6" noWrap>{name}</Typography>
-                        <Typography variant="body2" className="artist-followers"><PeopleIcon/>&nbsp;Followers: {numberOfFollowers.toLocaleString()}</Typography>
-                    </CardContent>
+                    <Link to={`/artist/${id}/albums`}  style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <CardMedia className="artist-picture" image={image ? image : 'assets/images/artist-default.png'} title={name}/>
+                        <CardContent>
+                            <Typography variant="h6" noWrap>{name}</Typography>
+                            <Typography variant="body2" className="artist-followers"><PeopleIcon/>&nbsp;{numberOfFollowers.toLocaleString()} followers</Typography>
+                        </CardContent>
+                    </Link>
                 </CardActionArea>
                 <CardActions className="artist-stars">
                     {[...Array(stars)].map((e, i) => <StarIcon key={i} color="primary"/>)}
