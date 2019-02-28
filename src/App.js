@@ -10,6 +10,7 @@ import Artist from './models/Artist';
 import SpotifyService from './services/SpotifyService';
 import AuthService from './services/AuthService';
 import './App.scss';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const theme = createMuiTheme({
     palette: {
@@ -32,7 +33,9 @@ class App extends Component {
 
     state = {
         isLoggedIn: AuthService.isLoggedIn(),
-        searchResults: null
+        searchResults: null,
+        snackbarOpen: false,
+        snackbarMessage: ''
     };
 
     componentDidMount() {
@@ -56,7 +59,17 @@ class App extends Component {
         });
     };
 
-    searchArtists = async (query, limit) => {
+    searchArtists = (query, limit) => {
+
+        if (!query.trim()) {
+            this.setState({
+                searchResults: [],
+                snackbarOpen: true,
+                snackbarMessage: 'Your search doesn\'t contain anything!'
+            });
+            return;
+        }
+
         this.setState({
             searchResults: null
         });
@@ -80,10 +93,19 @@ class App extends Component {
 
             },
             err => {
-                // todo display error message if token invalid
-                console.log(err);
+                this.setState({
+                    searchResults: [],
+                    snackbarOpen: true,
+                    snackbarMessage: err.response.data.error.message
+                });
             }
         );
+    };
+
+    closeSnackbar = (e, reason) => {
+        if (reason !== 'clickaway') {
+            this.setState({ snackbarOpen: false });
+        }
     };
 
     render() {
@@ -105,6 +127,16 @@ class App extends Component {
                         )}/>
                     </div>
                 </Router>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                    }}
+                    open={this.state.snackbarOpen}
+                    autoHideDuration={3000}
+                    onClose={this.closeSnackbar}
+                    message={<span>{this.state.snackbarMessage}</span>}
+                />
             </MuiThemeProvider>
         );
     }

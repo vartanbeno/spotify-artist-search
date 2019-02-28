@@ -17,6 +17,12 @@
 
 @media (max-width: 1280px) {
     .search-input-container {
+        width: 50%;
+    }
+}
+
+@media (max-width: 960px) {
+    .search-input-container {
         width: 60%;
     }
 }
