@@ -31,9 +31,10 @@ class Search extends Component {
     render() {
         return (
             <main className="search-container">
-                <div className="search-input">
+                <div className="search-input-container">
                     <form onSubmit={this.submitSearch}>
                         <TextField
+                            className="search-input"
                             fullWidth={true}
                             placeholder="Search for an Artist"
                             name="q"
@@ -41,7 +42,6 @@ class Search extends Component {
                             autoComplete="off"
                             autoFocus={true}
                             onChange={this.setQuery}
-                            style={{ backgroundColor: '#fff', borderRadius: '4px', boxShadow: '0 1px 5px rgba(104, 104, 104, 0.8)' }}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -51,7 +51,7 @@ class Search extends Component {
                                     </InputAdornment>
                                 )
                             }}/>
-                        <RadioGroup style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }} value={this.state.limit} onChange={this.setLimit}>
+                        <RadioGroup className="radio-buttons-container" value={this.state.limit} onChange={this.setLimit}>
                             <FormControlLabel control={<Radio color="primary"/>} label="10 results" value="10"/>
                             <FormControlLabel control={<Radio color="primary"/>} label="20 results" value="20"/>
                             <FormControlLabel control={<Radio color="primary"/>} label="50 results" value="50"/>

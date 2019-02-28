@@ -1,7 +1,4 @@
-import createStyles from '@material-ui/core/styles/createStyles';
-import { Component } from 'react';
-import React from 'react';
-import withStyles from '@material-ui/core/styles/withStyles';
+import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';
@@ -10,40 +7,31 @@ import { CardActionArea, CardActions } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import PeopleIcon from '@material-ui/icons/People';
-
-const style = theme => createStyles({
-    card: {
-        width: '250px',
-    },
-    media: {
-        height: '0',
-        paddingTop: '100%'
-    },
-    rating: {
-        display: 'flex'
-    }
-});
+import './SearchResult.scss';
 
 class SearchResult extends Component {
     render() {
+
         const { name, image, numberOfFollowers, popularity } = this.props.artist;
         const stars = Math.ceil(popularity/20) || 1;
+
         return (
-            <Card className={this.props.classes.card} elevation={3}>
+            <Card className="card" elevation={3}>
                 <CardActionArea>
-                    <CardMedia className={this.props.classes.media} image={image ? image : 'assets/images/artist-default.png'} title={name}/>
+                    <CardMedia className="artist-picture" image={image ? image : 'assets/images/artist-default.png'} title={name}/>
                     <CardContent>
                         <Typography variant="h6" noWrap>{name}</Typography>
-                        <Typography variant="body2" style={{ display: 'flex', alignItems: 'center' }}><PeopleIcon/>&nbsp;Followers: {numberOfFollowers.toLocaleString()}</Typography>
+                        <Typography variant="body2" className="artist-followers"><PeopleIcon/>&nbsp;Followers: {numberOfFollowers.toLocaleString()}</Typography>
                     </CardContent>
                 </CardActionArea>
-                <CardActions style={{ padding: 16 }}>
-                    {[...Array(stars)].map((e, i) => <StarIcon key={i} color="primary" style={{ margin: 0 }}/>)}
-                    {[...Array(5 - stars)].map((e, i) => <StarBorderIcon key={i} color="primary" style={{ margin: 0 }}/>)}
+                <CardActions className="artist-stars">
+                    {[...Array(stars)].map((e, i) => <StarIcon key={i} color="primary"/>)}
+                    {[...Array(5 - stars)].map((e, i) => <StarBorderIcon key={i} color="primary"/>)}
                 </CardActions>
             </Card>
         )
+
     }
 }
 
-export default withStyles(style)(SearchResult);
+export default SearchResult;

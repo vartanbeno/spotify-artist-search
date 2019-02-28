@@ -5,14 +5,11 @@ import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles from '@material-ui/core/styles/withStyles';
 import AuthService from '../../services/AuthService';
 
-const style = (theme) => createStyles({
+const style = theme => createStyles({
     root: {
         ...theme.mixins.gutters(),
         paddingTop: theme.spacing.unit * 2,
         paddingBottom: theme.spacing.unit * 2
-    },
-    linkSection: {
-        paddingTop: '8px'
     },
     link: {
         color: theme.palette.primary.main,
@@ -37,7 +34,7 @@ class Login extends Component {
                         </Typography>
                         <img src="assets/images/spotify-icon/spotify-icon-green.png" alt="Spotify Icon" className="spotify-icon"/>
                     </div>
-                    <Typography variant="body1" className={this.props.classes.linkSection}>
+                    <Typography variant="body1" className="link-container">
                         {/* Must use <a> tag instead of <Link> since it's an external link. */}
                         Click <a href={this.login()} className={this.props.classes.link}>here</a> to login.
                     </Typography>
