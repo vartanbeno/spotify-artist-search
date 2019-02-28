@@ -9,6 +9,11 @@
     .artist-followers {
         display: flex;
         align-items: center;
+
+        svg {
+            font-size: 20px;
+            margin-right: 4px;
+        }
     }
 
     .artist-stars {
