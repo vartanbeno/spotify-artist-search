@@ -3,7 +3,7 @@ import { Paper, Typography } from '@material-ui/core';
 import './Login.scss';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles from '@material-ui/core/styles/withStyles';
-import config from '../../config/spotify.json';
+import AuthService from '../../services/AuthService';
 
 const style = (theme) => createStyles({
     root: {
@@ -21,13 +21,12 @@ const style = (theme) => createStyles({
     }
 });
 
-const { clientId } = config;
-
-const authorization = `
-    https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${window.location.origin}&response_type=token
-`;
-
 class Login extends Component {
+
+    login = () => {
+        return AuthService.AUTHORIZATION_URL;
+    };
+
     render() {
         return (
             <main className="login-container">
@@ -40,7 +39,7 @@ class Login extends Component {
                     </div>
                     <Typography variant="body1" className={this.props.classes.linkSection}>
                         {/* Must use <a> tag instead of <Link> since it's an external link. */}
-                        Click <a href={authorization} className={this.props.classes.link}>here</a> to login.
+                        Click <a href={this.login()} className={this.props.classes.link}>here</a> to login.
                     </Typography>
                 </Paper>
             </main>
