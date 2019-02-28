@@ -6,14 +6,14 @@ import { lightGreen, red } from '@material-ui/core/colors';
 import Login from './components/login/Login';
 import Search from './components/search/Search';
 import SearchResults from './components/search/search-results/SearchResults';
-import Artist from './models/Artist';
+import Artist from './models/artist/Artist';
 import SpotifyService from './services/SpotifyService';
 import AuthService from './services/AuthService';
 import './App.scss';
 import Snackbar from '@material-ui/core/Snackbar';
 import Albums from './components/albums/Albums';
-import Album from './models/Album';
-import AlbumArtist from './models/AlbumArtist';
+import Album from './models/album/Album';
+import AlbumArtist from './models/album/AlbumArtist';
 
 const theme = createMuiTheme({
     palette: {
