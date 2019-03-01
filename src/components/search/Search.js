@@ -112,7 +112,6 @@ class Search extends Component {
     };
 
     unfocusList = e => {
-        console.log(e);
         this.setState({
             showSearchSuggestionStates: {
                 ...this.state.showSearchSuggestionStates,
