@@ -22,8 +22,10 @@ class Search extends Component {
         q: '',
         limit: '10',
         searchAsYouType: null,
-        showSearchSuggestions: false,
-        showList: false,
+        showSearchSuggestionStates: {
+            searchBarFocused: false,
+            listFocused: false
+        },
         searchSuggestions: []
     };
 
@@ -40,6 +42,7 @@ class Search extends Component {
     };
 
     submitSearch = e => {
+        clearTimeout(this.state.searchAsYouType);
         e.preventDefault();
         this.props.history.push(`/search?q=${this.state.q}&limit=${this.state.limit}`);
         if (this.props.searchArtists) {
@@ -81,20 +84,41 @@ class Search extends Component {
         })
     };
 
-    showSearchSuggestions = e => {
-        this.setState({ showSearchSuggestions: true });
+    focusSearchBar = e => {
+        this.setState({
+            showSearchSuggestionStates: {
+                ...this.state.showSearchSuggestionStates,
+                searchBarFocused: true
+            }
+        });
     };
 
-    hideSearchSuggestions = e => {
-        this.setState({ showSearchSuggestions: false });
+    unfocusSearchBar = e => {
+        this.setState({
+            showSearchSuggestionStates: {
+                ...this.state.showSearchSuggestionStates,
+                searchBarFocused: false
+            }
+        });
     };
 
-    showList = e => {
-        this.setState({ showList: true });
+    focusList = e => {
+        this.setState({
+            showSearchSuggestionStates: {
+                ...this.state.showSearchSuggestionStates,
+                listFocused: true
+            }
+        });
     };
 
-    hideList = e => {
-        this.setState({ showList: false });
+    unfocusList = e => {
+        console.log(e);
+        this.setState({
+            showSearchSuggestionStates: {
+                ...this.state.showSearchSuggestionStates,
+                listFocused: false
+            }
+        });
     };
 
     render() {
@@ -116,8 +140,8 @@ class Search extends Component {
                         autoComplete="off"
                         autoFocus={true}
                         onChange={this.setQuery}
-                        onFocus={this.showSearchSuggestions}
-                        onBlur={this.hideSearchSuggestions}
+                        onFocus={this.focusSearchBar}
+                        onBlur={this.unfocusSearchBar}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
@@ -129,11 +153,11 @@ class Search extends Component {
                         }}
                     />
                     {
-                        this.state.searchSuggestions.length && (this.state.showSearchSuggestions || this.state.showList) ?
-                            <div className="search-input-container" onMouseEnter={this.showList} onMouseLeave={this.hideList} onBlur={this.hideList} onMouseDown={this.showList} style={{ backgroundColor: '#fff', borderRadius: '4px', zIndex: 1, position: 'absolute', boxShadow: '0 1px 5px rgba(104, 104, 104, 0.8)' }}>
-                                <List style={{ padding: 0 }}>
+                        this.state.searchSuggestions.length && (this.state.showSearchSuggestionStates.searchBarFocused || this.state.showSearchSuggestionStates.listFocused) ?
+                            <div className="search-suggestions-container" onMouseEnter={this.focusList} onBlur={this.unfocusList}>
+                                <List className="suggestion-list">
                                     {this.state.searchSuggestions.map(artist =>
-                                        <Link key={artist.id} to={`/artist/${artist.id}/albums`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                        <Link key={artist.id} to={`/artist/${artist.id}/albums`} className="artist-link">
                                             <ListItem button>
                                                 <Avatar src={artist.image ? artist.image : "/assets/images/artist-default.png"}/>
                                                 <ListItemText color="primary" primary={artist.name}/>
