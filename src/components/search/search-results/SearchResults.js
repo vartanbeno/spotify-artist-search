@@ -29,22 +29,24 @@ class SearchResults extends Component {
         const { artists } = this.props;
 
         return (
-            <div className="search-results-container">
+            <div className="search-results-page">
                 <div className="search-field">
                     {this.state.q != null ? <Search query={this.state.q} searchArtists={this.searchArtists}/> : null}
                 </div>
-                {
-                    artists ?
-                        <div className="search-results">
-                            {artists.map(artist => (
-                                <div key={artist.id} className="search-result">
-                                    <SearchResult artist={artist}/>
-                                </div>
-                            ))}
-                        </div>
-                        :
-                        <Loader/>
-                }
+                <div className="search-results-container">
+                    {
+                        artists ?
+                            <div className="search-results">
+                                {artists.map(artist => (
+                                    <div key={artist.id} className="search-result">
+                                        <SearchResult artist={artist}/>
+                                    </div>
+                                ))}
+                            </div>
+                            :
+                            <Loader/>
+                    }
+                </div>
             </div>
         )
     }
