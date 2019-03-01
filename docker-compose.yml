@@ -1,0 +1,11 @@
+---
+version: "3.4"
+
+services:
+
+  spotify-search:
+    build: ./
+    image: spotify-search
+    container_name: spotify-search
+    ports:
+      - "80:80"
