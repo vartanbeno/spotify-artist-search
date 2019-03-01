@@ -195,6 +195,7 @@ class App extends Component {
                     </div>
                 </Router>
                 <Snackbar
+                    className="snackbar"
                     anchorOrigin={{
                         vertical: 'bottom',
                         horizontal: 'center',
