@@ -103,13 +103,12 @@ class Search extends Component {
                 SpotifyService.searchArtists(q, 5).then(
                     res => {
 
-                        const artists = [];
-                        res.data.artists.items.forEach(artist => {
+                        const artists = res.data.artists.items.map(artist => {
 
                             const { id, name, images } = artist;
                             const image = images.length ? images[0].url : null;
 
-                            artists.push(new ArtistSuggestion(id, name, image));
+                            return new ArtistSuggestion(id, name, image);
 
                         });
 
