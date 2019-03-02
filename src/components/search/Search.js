@@ -5,9 +5,11 @@ import {
     IconButton,
     InputAdornment,
     List,
-    ListItem, ListItemText,
+    ListItem,
+    ListItemText,
     Radio,
-    RadioGroup
+    RadioGroup,
+    Typography
 } from '@material-ui/core';
 import './Search.scss';
 import TextField from '@material-ui/core/TextField';
@@ -22,21 +24,59 @@ class Search extends Component {
         q: '',
         limit: '10',
         searchAsYouType: null,
+        showSearchSuggestions: true,
         showSearchSuggestionStates: {
             searchBarFocused: false,
             listFocused: false
         },
-        searchSuggestions: []
+        searchSuggestions: [],
+        error: null
     };
 
     componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutsideList);
+        document.addEventListener('mousedown', this.handleClickInsideList);
+        document.addEventListener("keydown", this.hideListOnEsc);
         if (this.props.query) {
             this.setState({ q: this.props.query });
         }
     }
 
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutsideList);
+        document.removeEventListener('mousedown', this.handleClickInsideList);
+        document.removeEventListener("keydown", this.hideListOnEsc);
+    }
+
+    handleClickOutsideList = e => {
+        if (this.wrapperRef && !this.wrapperRef.contains(e.target)) {
+            this.listIsFocused(false);
+        }
+    };
+
+    handleClickInsideList = e => {
+        if (this.wrapperRef && this.wrapperRef.contains(e.target)) {
+            this.listIsFocused(true);
+        }
+    };
+
+    hideListOnEsc = e => {
+        if (e.keyCode === 27) {
+            this.setState({ showSearchSuggestions: false });
+        }
+    };
+
+    setWrapperRef = node => {
+        this.wrapperRef = node;
+    };
+
     setQuery = e => {
+        if (e.target.value.replace(/\s+/g, " ").trim() === this.state.q.replace(/\s+/g, " ").trim()) {
+            this.setState({ showSearchSuggestions: true });
+            return;
+        }
         this.setState({
+            error: null,
             [e.target.name]: e.target.value
         }, () => this.searchAsYouType(this.state.q));
     };
@@ -48,8 +88,12 @@ class Search extends Component {
     };
 
     submitSearch = e => {
-        clearTimeout(this.state.searchAsYouType);
         e.preventDefault();
+        if (!this.state.q.trim()) {
+            this.setState({ error: 'Must provide a search query.' });
+            return;
+        }
+        clearTimeout(this.state.searchAsYouType);
         this.props.history.push(`/search?q=${this.state.q}&limit=${this.state.limit}`);
         if (this.props.searchArtists) {
             this.props.searchArtists();
@@ -59,7 +103,7 @@ class Search extends Component {
     searchAsYouType = q => {
         clearTimeout(this.state.searchAsYouType);
 
-        if (!q) {
+        if (!q.trim()) {
             this.setState({ searchSuggestions: [] });
             return;
         }
@@ -80,11 +124,13 @@ class Search extends Component {
                         });
 
                         this.setState({
-                            searchSuggestions: artists
+                            showSearchSuggestions: true,
+                            searchSuggestions: artists,
+                            error: null
                         });
 
                     },
-                    err => console.log(err)
+                    err => this.setState({ error: err.response.data.error.message })
                 );
             }, 350)
         })
@@ -92,6 +138,7 @@ class Search extends Component {
 
     focusSearchBar = e => {
         this.setState({
+            showSearchSuggestions: true,
             showSearchSuggestionStates: {
                 ...this.state.showSearchSuggestionStates,
                 searchBarFocused: true
@@ -108,20 +155,11 @@ class Search extends Component {
         });
     };
 
-    focusList = e => {
+    listIsFocused = bool => {
         this.setState({
             showSearchSuggestionStates: {
                 ...this.state.showSearchSuggestionStates,
-                listFocused: true
-            }
-        });
-    };
-
-    unfocusList = e => {
-        this.setState({
-            showSearchSuggestionStates: {
-                ...this.state.showSearchSuggestionStates,
-                listFocused: false
+                listFocused: bool
             }
         });
     };
@@ -158,8 +196,8 @@ class Search extends Component {
                         }}
                     />
                     {
-                        this.state.searchSuggestions.length && (this.state.showSearchSuggestionStates.searchBarFocused || this.state.showSearchSuggestionStates.listFocused) ?
-                            <div className="search-suggestions-container" onMouseEnter={this.focusList} onBlur={this.unfocusList}>
+                        this.state.searchSuggestions.length && this.state.showSearchSuggestions && (this.state.showSearchSuggestionStates.searchBarFocused || this.state.showSearchSuggestionStates.listFocused) ?
+                            <div ref={this.setWrapperRef} className="search-suggestions-container">
                                 <List className="suggestion-list">
                                     {this.state.searchSuggestions.map(artist =>
                                         <Link key={artist.id} to={`/artist/${artist.id}/albums`} className="artist-link">
@@ -174,6 +212,7 @@ class Search extends Component {
                             :
                             null
                     }
+                    <Typography align="center" color="error">{this.state.error}</Typography>
                 </form>
             </div>
         );
