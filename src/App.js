@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from './components/navbar/Navbar';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { lightGreen, red } from '@material-ui/core/colors';
 import Login from './components/login/Login';
@@ -10,6 +10,7 @@ import AuthService from './services/AuthService';
 import './App.scss';
 import Albums from './components/albums/Albums';
 import SnackbarWrapper from './components/snackbar-wrapper/SnackbarWrapper';
+import PageNotFound from './components/page-not-found/PageNotFound';
 
 const theme = createMuiTheme({
     palette: {
@@ -69,20 +70,24 @@ class App extends Component {
                 <Router>
                     <div className="App">
                         <Navbar logout={this.logout} isLoggedIn={this.state.isLoggedIn}/>
-                        <Route exact path="/" render={props => (
-                            this.state.isLoggedIn ?
-                                <div className="search-container">
-                                    <Search openSnackbar={this.openSnackbar}/>
-                                </div>
-                                :
-                                <Login/>
-                        )}/>
-                        <Route exact path="/search" render={props => (
-                            this.state.isLoggedIn ? <SearchResults openSnackbar={this.openSnackbar}/> : null
-                        )}/>
-                        <Route exact path="/artist/:id/albums" render={props => (
-                            this.state.isLoggedIn ? <Albums openSnackbar={this.openSnackbar}/> : null
-                        )}/>
+
+                        <Switch>
+                            <Route exact path="/" render={props => (
+                                this.state.isLoggedIn ?
+                                    <div className="search-container">
+                                        <Search openSnackbar={this.openSnackbar}/>
+                                    </div>
+                                    :
+                                    <Login/>
+                            )}/>
+                            <Route exact path="/search" render={props => (
+                                this.state.isLoggedIn ? <SearchResults openSnackbar={this.openSnackbar}/> : null
+                            )}/>
+                            <Route exact path="/artist/:id/albums" render={props => (
+                                this.state.isLoggedIn ? <Albums openSnackbar={this.openSnackbar}/> : null
+                            )}/>
+                            <Route render={props => <PageNotFound openSnackbar={this.openSnackbar}/>}/>
+                        </Switch>
                     </div>
                 </Router>
                 <SnackbarWrapper ref={this.setSnackbar}/>
