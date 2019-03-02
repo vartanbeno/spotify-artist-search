@@ -34,30 +34,27 @@ class Search extends Component {
     }
 
     addListeners = () => {
-        document.addEventListener('mousedown', this.handleClickOutsideList);
-        document.addEventListener('mousedown', this.handleClickInsideList);
+        document.addEventListener('mousedown', this.handleClickInsideOrOutsideList);
         document.addEventListener("keydown", this.hideListOnEsc);
     };
 
     removeListeners = () => {
-        document.removeEventListener('mousedown', this.handleClickOutsideList);
-        document.removeEventListener('mousedown', this.handleClickInsideList);
+        document.removeEventListener('mousedown', this.handleClickInsideOrOutsideList);
         document.removeEventListener("keydown", this.hideListOnEsc);
     };
 
     setSuggestionsNode = node => {
-        this.wrapperRef = node;
+        this.suggestionsNode = node;
     };
 
-    handleClickOutsideList = e => {
-        if (this.wrapperRef && !this.wrapperRef.contains(e.target)) {
-            this.listIsFocused(false);
-        }
-    };
-
-    handleClickInsideList = e => {
-        if (this.wrapperRef && this.wrapperRef.contains(e.target)) {
-            this.listIsFocused(true);
+    handleClickInsideOrOutsideList = e => {
+        if (this.suggestionsNode) {
+            this.setState({
+                showSearchSuggestionStates: {
+                    ...this.state.showSearchSuggestionStates,
+                    listFocused: this.suggestionsNode.contains(e.target)
+                }
+            });
         }
     };
 
@@ -143,15 +140,6 @@ class Search extends Component {
             showSearchSuggestionStates: {
                 ...this.state.showSearchSuggestionStates,
                 searchBarFocused: false
-            }
-        });
-    };
-
-    listIsFocused = bool => {
-        this.setState({
-            showSearchSuggestionStates: {
-                ...this.state.showSearchSuggestionStates,
-                listFocused: bool
             }
         });
     };
