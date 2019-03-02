@@ -3,6 +3,15 @@
 
     .albums-header {
         margin-bottom: 2rem;
+
+        .artist-name-and-image {
+            display: flex;
+            align-items: center;
+
+            .artist-image {
+                margin-left: 1rem;
+            }
+        }
     }
 
     .albums {
@@ -19,6 +28,8 @@
 
 @media (max-width: 600px) {
     .albums-header {
-        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 }

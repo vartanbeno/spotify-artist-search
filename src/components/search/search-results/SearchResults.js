@@ -11,7 +11,7 @@ class SearchResults extends Component {
     state = {
         q: null,
         limit: 10,
-        results: []
+        results: null
     };
 
     componentDidMount() {
@@ -31,17 +31,17 @@ class SearchResults extends Component {
     };
 
     searchArtists = (query, limit) => {
+        this.setState({ results: null });
         SpotifyService.searchArtists(query, limit).then(
             res => {
 
-                const artists = [];
-                res.data.artists.items.forEach(artist => {
+                const artists = res.data.artists.items.map(artist => {
 
                     const { id, name, images, followers, popularity } = artist;
                     const image = images.length ? images[0].url : '/assets/images/artist-default.png';
                     const rating = Math.ceil(popularity/20) || 1;
 
-                    artists.push(new Artist(id, name, image, followers.total, rating));
+                    return new Artist(id, name, image, followers.total, rating);
 
                 });
 
