@@ -1,22 +1,12 @@
 import React, { Component } from 'react';
-import {
-    Avatar,
-    FormControlLabel,
-    IconButton,
-    InputAdornment,
-    List,
-    ListItem,
-    ListItemText,
-    Radio,
-    RadioGroup,
-    Typography
-} from '@material-ui/core';
+import { FormControlLabel, IconButton, InputAdornment, Radio, RadioGroup, Typography } from '@material-ui/core';
 import './Search.scss';
 import TextField from '@material-ui/core/TextField';
 import SearchOutlined from '@material-ui/icons/SearchOutlined';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import SpotifyService from '../../services/SpotifyService';
 import ArtistSuggestion from '../../models/artist/ArtistSuggestion';
+import SearchSuggestions from './search-suggestions/SearchSuggestions';
 
 class Search extends Component {
 
@@ -48,6 +38,10 @@ class Search extends Component {
         document.removeEventListener("keydown", this.hideListOnEsc);
     }
 
+    setSuggestionsNode = node => {
+        this.wrapperRef = node;
+    };
+
     handleClickOutsideList = e => {
         if (this.wrapperRef && !this.wrapperRef.contains(e.target)) {
             this.listIsFocused(false);
@@ -64,10 +58,6 @@ class Search extends Component {
         if (e.keyCode === 27) {
             this.setState({ showSearchSuggestions: false });
         }
-    };
-
-    setWrapperRef = node => {
-        this.wrapperRef = node;
     };
 
     setQuery = e => {
@@ -197,17 +187,8 @@ class Search extends Component {
                     />
                     {
                         this.state.searchSuggestions.length && this.state.showSearchSuggestions && (this.state.showSearchSuggestionStates.searchBarFocused || this.state.showSearchSuggestionStates.listFocused) ?
-                            <div ref={this.setWrapperRef} className="search-suggestions-container">
-                                <List className="suggestion-list">
-                                    {this.state.searchSuggestions.map(artist =>
-                                        <Link key={artist.id} to={`/artist/${artist.id}/albums`} className="artist-link">
-                                            <ListItem button className="artist-item">
-                                                <Avatar className="artist-image" src={artist.image ? artist.image : "/assets/images/artist-default.png"}/>
-                                                <ListItemText color="primary" primary={<Typography noWrap>{artist.name}</Typography>}/>
-                                            </ListItem>
-                                        </Link>
-                                    )}
-                                </List>
+                            <div ref={this.setSuggestionsNode} className="search-suggestions-container">
+                                <SearchSuggestions searchSuggestions={this.state.searchSuggestions}/>
                             </div>
                             :
                             null
