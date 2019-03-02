@@ -13,7 +13,7 @@ class Albums extends Component {
 
     state = {
         id: null,
-        artist: '',
+        artist: null,
         albums: null
     };
 
@@ -38,6 +38,7 @@ class Albums extends Component {
     };
 
     getArtistById = id => {
+        this.setState({ artist: null });
         SpotifyService.searchArtistById(id).then(
             res => {
                 const { id, name, images } = res.data;
@@ -45,13 +46,14 @@ class Albums extends Component {
                 this.setState({ artist: new AlbumMainArtist(id, name, image) });
             },
             err => {
-                this.setState({ artist: '' });
+                this.setState({ artist: ' ' });
                 this.props.openSnackbar(err.response.data.error.message);
             }
         );
     };
 
     getAlbumsByArtistId = id => {
+        this.setState({ albums: null });
         SpotifyService.searchAlbumsByArtistId(id).then(
             res => {
 
