@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
+import './SnackbarWrapper.scss';
 
 class SnackbarWrapper extends Component {
 
@@ -32,7 +33,7 @@ class SnackbarWrapper extends Component {
                 open={this.state.open}
                 autoHideDuration={3000}
                 onClose={this.close}
-                message={<span>{this.state.message}</span>}
+                message={this.state.message}
             />
         );
     }

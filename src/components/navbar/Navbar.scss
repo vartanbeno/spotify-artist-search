@@ -2,14 +2,19 @@
     display: flex;
     justify-content: space-between;
 
-    .title {
+    .title-logo {
         display: flex;
         align-items: center;
 
         .spotify-logo {
-            height: 36px;
+            height: 32px;
             width: auto;
             padding-right: 2px;
+        }
+
+        .title {
+            line-height: normal;
+            padding-bottom: 0;
         }
     }
 
