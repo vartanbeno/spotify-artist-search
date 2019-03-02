@@ -29,6 +29,12 @@ class Search extends Component {
         searchSuggestions: []
     };
 
+    componentDidMount() {
+        if (this.props.query) {
+            this.setState({ q: this.props.query });
+        }
+    }
+
     setQuery = e => {
         this.setState({
             [e.target.name]: e.target.value
