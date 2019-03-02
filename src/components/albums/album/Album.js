@@ -10,10 +10,6 @@ import { Link } from 'react-router-dom';
 
 class Album extends Component {
 
-    changeArtist = e => {
-        this.props.changeArtist(e.target.id);
-    };
-
     render() {
 
         const { name, artists, numberOfTracks, releaseDate, image, url } = this.props.album;
@@ -28,7 +24,7 @@ class Album extends Component {
                             <div className="album-artists">
                                 {artists.map(artist =>
                                     <Typography key={artist.id} variant="body2" color="primary" noWrap>
-                                        <Link to={`/artist/${artist.id}/albums`} onClick={this.changeArtist} id={artist.id}>{artist.name}</Link>
+                                        <Link to={`/artist/${artist.id}/albums`} id={artist.id}>{artist.name}</Link>
                                     </Typography>
                                 )}
                             </div>

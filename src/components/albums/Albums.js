@@ -11,20 +11,25 @@ class Albums extends Component {
         id: null
     };
 
-    componentDidMount() {
-        this.setState({ id: this.props.match.params.id }, () => this.getArtistNameAndAlbums());
-    }
-
-    changeArtist = id => {
-        if (id !== this.state.id) {
-            this.setState({ id }, () => this.getArtistNameAndAlbums());
-        }
-    };
-
     getArtistNameAndAlbums = () => {
         this.props.getArtistNameById(this.state.id);
         this.props.getAlbumsByArtistId(this.state.id);
     };
+
+    setIdAndSearch = id => {
+        this.setState({ id }, () => this.getArtistNameAndAlbums());
+    };
+
+    componentDidMount() {
+        this.setIdAndSearch(this.props.match.params.id);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const id = nextProps.match.params.id;
+        if (this.state.id !== id) {
+            this.setIdAndSearch(id);
+        }
+    }
 
     render() {
 
@@ -41,7 +46,7 @@ class Albums extends Component {
                         <div className="albums">
                             {albums.map(album => (
                                 <div key={album.id} className="album">
-                                    <Album album={album} changeArtist={this.changeArtist}/>
+                                    <Album album={album}/>
                                 </div>
                             ))}
                         </div>
