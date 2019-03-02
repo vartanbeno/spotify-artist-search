@@ -91,9 +91,6 @@ class Search extends Component {
         }
         clearTimeout(this.state.searchAsYouType);
         this.props.history.push(`/search?q=${this.state.q}&limit=${this.state.limit}`);
-        if (this.props.searchArtists) {
-            this.props.searchArtists();
-        }
     };
 
     searchAsYouType = q => {

@@ -6,7 +6,6 @@ import { lightGreen, red } from '@material-ui/core/colors';
 import Login from './components/login/Login';
 import Search from './components/search/Search';
 import SearchResults from './components/search/search-results/SearchResults';
-import Artist from './models/artist/Artist';
 import SpotifyService from './services/SpotifyService';
 import AuthService from './services/AuthService';
 import './App.scss';
@@ -36,7 +35,6 @@ class App extends Component {
 
     state = {
         isLoggedIn: AuthService.isLoggedIn(),
-        searchResults: null,
         artistName: null,
         albums: null
     };
@@ -68,49 +66,6 @@ class App extends Component {
 
     openSnackbar = message => {
         this.snackbar.open(message);
-    };
-
-    searchArtists = (query, limit) => {
-
-        if (!query.trim()) {
-            this.setState({
-                searchResults: []
-            });
-            this.snackbar.open('Your search doesn\'t contain anything!');
-            return;
-        }
-
-        this.setState({
-            searchResults: null
-        });
-
-        SpotifyService.searchArtists(query, limit).then(
-            res => {
-
-                const artists = [];
-                res.data.artists.items.forEach(artist => {
-
-                    const { id, name, images, followers, popularity } = artist;
-                    const image = images.length ? images[0].url : null;
-
-                    artists.push(new Artist(id, name, image, followers.total, popularity));
-
-                });
-
-                this.setState({
-                    searchResults: artists
-                });
-
-                if (!artists.length) {
-                    this.snackbar.open('Your search didn\'t return any results.');
-                }
-
-            },
-            err => {
-                this.setState({ searchResults: [] });
-                this.snackbar.open(err.response.data.error.message);
-            }
-        );
     };
 
     getArtistNameById = id => {
@@ -173,7 +128,7 @@ class App extends Component {
                                 <Login/>
                         )}/>
                         <Route exact path="/search" render={props => (
-                            this.state.isLoggedIn ? <SearchResults searchArtists={this.searchArtists} artists={this.state.searchResults} openSnackbar={this.openSnackbar}/> : null
+                            this.state.isLoggedIn ? <SearchResults openSnackbar={this.openSnackbar}/> : null
                         )}/>
                         <Route exact path="/artist/:id/albums" render={props => (
                             this.state.isLoggedIn ? <Albums getArtistNameById={this.getArtistNameById} artistName={this.state.artistName} getAlbumsByArtistId={this.getAlbumsByArtistId} albums={this.state.albums}/> : null
