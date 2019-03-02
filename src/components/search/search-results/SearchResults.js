@@ -38,9 +38,10 @@ class SearchResults extends Component {
                 res.data.artists.items.forEach(artist => {
 
                     const { id, name, images, followers, popularity } = artist;
-                    const image = images.length ? images[0].url : null;
+                    const image = images.length ? images[0].url : '/assets/images/artist-default.png';
+                    const rating = Math.ceil(popularity/20) || 1;
 
-                    artists.push(new Artist(id, name, image, followers.total, popularity));
+                    artists.push(new Artist(id, name, image, followers.total, rating));
 
                 });
 

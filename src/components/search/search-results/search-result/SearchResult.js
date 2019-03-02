@@ -12,17 +12,16 @@ import Rating from './rating/Rating';
 class SearchResult extends Component {
     render() {
 
-        const { id, name, image, numberOfFollowers, popularity } = this.props.artist;
-        const rating = Math.ceil(popularity/20) || 1;
+        const { id, name, image, followers, rating } = this.props.artist;
 
         return (
             <Card className="card" elevation={3}>
                 <CardActionArea>
                     <Link to={`/artist/${id}/albums`}  style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <CardMedia className="artist-picture" image={image ? image : 'assets/images/artist-default.png'} title={name}/>
+                        <CardMedia className="artist-picture" image={image} title={name}/>
                         <CardContent>
                             <Typography variant="h6" noWrap>{name}</Typography>
-                            <Typography variant="body2" className="artist-followers"><PeopleIcon/>&nbsp;{numberOfFollowers.toLocaleString()} followers</Typography>
+                            <Typography variant="body2" className="artist-followers"><PeopleIcon/>&nbsp;{followers.toLocaleString()} followers</Typography>
                         </CardContent>
                     </Link>
                 </CardActionArea>
