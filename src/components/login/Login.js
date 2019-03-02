@@ -35,7 +35,7 @@ class Login extends Component {
                         <Typography variant="h5">
                             Login with <span className={this.props.classes.spotify}>Spotify</span>
                         </Typography>
-                        <img src="assets/images/spotify-icon/spotify-icon-green.png" alt="Spotify Icon" className="spotify-icon"/>
+                        <img src="/assets/images/spotify-icon/spotify-icon-green.png" alt="Spotify Icon" className="spotify-icon"/>
                     </div>
                     <Typography variant="body1" className="link-container">
                         {/* Must use <a> tag instead of <Link> since it's an external link. */}

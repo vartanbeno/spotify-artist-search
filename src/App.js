@@ -6,14 +6,10 @@ import { lightGreen, red } from '@material-ui/core/colors';
 import Login from './components/login/Login';
 import Search from './components/search/Search';
 import SearchResults from './components/search/search-results/SearchResults';
-import Artist from './models/artist/Artist';
-import SpotifyService from './services/SpotifyService';
 import AuthService from './services/AuthService';
 import './App.scss';
-import Snackbar from '@material-ui/core/Snackbar';
 import Albums from './components/albums/Albums';
-import Album from './models/album/Album';
-import AlbumArtist from './models/album/AlbumArtist';
+import SnackbarWrapper from './components/snackbar-wrapper/SnackbarWrapper';
 
 const theme = createMuiTheme({
     palette: {
@@ -35,12 +31,7 @@ const theme = createMuiTheme({
 class App extends Component {
 
     state = {
-        isLoggedIn: AuthService.isLoggedIn(),
-        searchResults: null,
-        artistName: null,
-        albums: null,
-        snackbarOpen: false,
-        snackbarMessage: ''
+        isLoggedIn: AuthService.isLoggedIn()
     };
 
     componentDidMount() {
@@ -64,112 +55,12 @@ class App extends Component {
         });
     };
 
-    searchArtists = (query, limit) => {
-
-        if (!query.trim()) {
-            this.setState({
-                searchResults: [],
-                snackbarOpen: true,
-                snackbarMessage: 'Your search doesn\'t contain anything!'
-            });
-            return;
-        }
-
-        this.setState({
-            searchResults: null
-        });
-
-        SpotifyService.searchArtists(query, limit).then(
-            res => {
-
-                const artists = [];
-                res.data.artists.items.forEach(artist => {
-
-                    const { id, name, images, followers, popularity } = artist;
-                    const image = images.length ? images[0].url : null;
-
-                    artists.push(new Artist(id, name, image, followers.total, popularity));
-
-                });
-
-                this.setState({
-                    searchResults: artists
-                });
-
-                if (!artists.length) {
-                    this.setState({
-                        snackbarOpen: true,
-                        snackbarMessage: 'Your search didn\'t return any results.'
-                    });
-                }
-
-            },
-            err => {
-                this.setState({ searchResults: [] });
-                this.openSnackbar(err.response.data.error.message);
-            }
-        );
-    };
-
-    getArtistNameById = id => {
-        this.setState({ artistName: null });
-        SpotifyService.searchArtistById(id).then(
-            res => this.setState({ artistName: res.data.name }),
-            err => {
-                this.setState({ artistName: '' });
-                this.openSnackbar(err.response.data.error.message);
-            }
-        );
-    };
-
-    getAlbumsByArtistId = id => {
-        this.setState({ albums: null });
-        SpotifyService.searchAlbumsByArtistId(id).then(
-            res => {
-
-                const albums = [];
-                res.data.items.forEach(album => {
-
-                    const { id, name, artists, total_tracks, release_date, images, external_urls } = album;
-                    const image = images.length ? images[0].url : null;
-                    const url = external_urls.spotify;
-
-                    const albumArtists = artists.map(artist => new AlbumArtist(artist.id, artist.name));
-
-                    albums.push(new Album(id, name, albumArtists, total_tracks, release_date, image, url));
-
-                });
-
-                this.setState({
-                    albums: albums
-                });
-
-                if (!albums.length) {
-                    this.setState({
-                        snackbarOpen: true,
-                        snackbarMessage: 'This artist doesn\'t have any albums.'
-                    });
-                }
-
-            },
-            err => {
-                this.setState({ albums: [] });
-                this.openSnackbar(err.response.data.error.message);
-            }
-        );
+    setSnackbar = node => {
+        this.snackbar = node;
     };
 
     openSnackbar = message => {
-        this.setState({
-            snackbarOpen: true,
-            snackbarMessage: message
-        });
-    };
-
-    closeSnackbar = (e, reason) => {
-        if (reason !== 'clickaway') {
-            this.setState({ snackbarOpen: false });
-        }
+        this.snackbar.open(message);
     };
 
     render() {
@@ -181,30 +72,20 @@ class App extends Component {
                         <Route exact path="/" render={props => (
                             this.state.isLoggedIn ?
                                 <div className="search-container">
-                                    <Search/>
+                                    <Search openSnackbar={this.openSnackbar}/>
                                 </div>
                                 :
                                 <Login/>
                         )}/>
                         <Route exact path="/search" render={props => (
-                            this.state.isLoggedIn ? <SearchResults searchArtists={this.searchArtists} artists={this.state.searchResults}/> : null
+                            this.state.isLoggedIn ? <SearchResults openSnackbar={this.openSnackbar}/> : null
                         )}/>
                         <Route exact path="/artist/:id/albums" render={props => (
-                            this.state.isLoggedIn ? <Albums getArtistNameById={this.getArtistNameById} artistName={this.state.artistName} getAlbumsByArtistId={this.getAlbumsByArtistId} albums={this.state.albums}/> : null
+                            this.state.isLoggedIn ? <Albums openSnackbar={this.openSnackbar}/> : null
                         )}/>
                     </div>
                 </Router>
-                <Snackbar
-                    className="snackbar"
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center',
-                    }}
-                    open={this.state.snackbarOpen}
-                    autoHideDuration={3000}
-                    onClose={this.closeSnackbar}
-                    message={<span>{this.state.snackbarMessage}</span>}
-                />
+                <SnackbarWrapper ref={this.setSnackbar}/>
             </MuiThemeProvider>
         );
     }

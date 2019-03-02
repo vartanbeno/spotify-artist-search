@@ -21,24 +21,6 @@
     position: absolute;
     z-index: 1;
     box-shadow: 0 1px 5px rgba(104, 104, 104, 0.8);
-
-    .suggestion-list {
-        padding: 0;
-
-        .artist-link {
-            text-decoration: none;
-            color: inherit;
-
-            .artist-item {
-                padding: 0.5rem 1rem;
-
-                .artist-image {
-                    height: 30px;
-                    width: 30px;
-                }
-            }
-        }
-    }
 }
 
 @media (max-width: 1280px) {

@@ -1,22 +1,12 @@
 import React, { Component } from 'react';
-import {
-    Avatar,
-    FormControlLabel,
-    IconButton,
-    InputAdornment,
-    List,
-    ListItem,
-    ListItemText,
-    Radio,
-    RadioGroup,
-    Typography
-} from '@material-ui/core';
+import { FormControlLabel, IconButton, InputAdornment, Radio, RadioGroup } from '@material-ui/core';
 import './Search.scss';
 import TextField from '@material-ui/core/TextField';
 import SearchOutlined from '@material-ui/icons/SearchOutlined';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import SpotifyService from '../../services/SpotifyService';
 import ArtistSuggestion from '../../models/artist/ArtistSuggestion';
+import SearchSuggestions from './search-suggestions/SearchSuggestions';
 
 class Search extends Component {
 
@@ -29,34 +19,42 @@ class Search extends Component {
             searchBarFocused: false,
             listFocused: false
         },
-        searchSuggestions: [],
-        error: null
+        searchSuggestions: []
     };
 
     componentDidMount() {
-        document.addEventListener('mousedown', this.handleClickOutsideList);
-        document.addEventListener('mousedown', this.handleClickInsideList);
-        document.addEventListener("keydown", this.hideListOnEsc);
+        this.addListeners();
         if (this.props.query) {
             this.setState({ q: this.props.query });
         }
     }
 
     componentWillUnmount() {
-        document.removeEventListener('mousedown', this.handleClickOutsideList);
-        document.removeEventListener('mousedown', this.handleClickInsideList);
-        document.removeEventListener("keydown", this.hideListOnEsc);
+        this.removeListeners();
     }
 
-    handleClickOutsideList = e => {
-        if (this.wrapperRef && !this.wrapperRef.contains(e.target)) {
-            this.listIsFocused(false);
-        }
+    addListeners = () => {
+        document.addEventListener('mousedown', this.handleClickInsideOrOutsideList);
+        document.addEventListener("keydown", this.hideListOnEsc);
     };
 
-    handleClickInsideList = e => {
-        if (this.wrapperRef && this.wrapperRef.contains(e.target)) {
-            this.listIsFocused(true);
+    removeListeners = () => {
+        document.removeEventListener('mousedown', this.handleClickInsideOrOutsideList);
+        document.removeEventListener("keydown", this.hideListOnEsc);
+    };
+
+    setSuggestionsNode = node => {
+        this.suggestionsNode = node;
+    };
+
+    handleClickInsideOrOutsideList = e => {
+        if (this.suggestionsNode) {
+            this.setState({
+                showSearchSuggestionStates: {
+                    ...this.state.showSearchSuggestionStates,
+                    listFocused: this.suggestionsNode.contains(e.target)
+                }
+            });
         }
     };
 
@@ -66,17 +64,12 @@ class Search extends Component {
         }
     };
 
-    setWrapperRef = node => {
-        this.wrapperRef = node;
-    };
-
     setQuery = e => {
         if (e.target.value.replace(/\s+/g, " ").trim() === this.state.q.replace(/\s+/g, " ").trim()) {
             this.setState({ showSearchSuggestions: true });
             return;
         }
         this.setState({
-            error: null,
             [e.target.name]: e.target.value
         }, () => this.searchAsYouType(this.state.q));
     };
@@ -90,14 +83,11 @@ class Search extends Component {
     submitSearch = e => {
         e.preventDefault();
         if (!this.state.q.trim()) {
-            this.setState({ error: 'Must provide a search query.' });
+            this.props.openSnackbar('You must provide a search query.');
             return;
         }
         clearTimeout(this.state.searchAsYouType);
         this.props.history.push(`/search?q=${this.state.q}&limit=${this.state.limit}`);
-        if (this.props.searchArtists) {
-            this.props.searchArtists();
-        }
     };
 
     searchAsYouType = q => {
@@ -125,12 +115,11 @@ class Search extends Component {
 
                         this.setState({
                             showSearchSuggestions: true,
-                            searchSuggestions: artists,
-                            error: null
+                            searchSuggestions: artists
                         });
 
                     },
-                    err => this.setState({ error: err.response.data.error.message })
+                    err => this.props.openSnackbar(err.response.data.error.message)
                 );
             }, 350)
         })
@@ -151,15 +140,6 @@ class Search extends Component {
             showSearchSuggestionStates: {
                 ...this.state.showSearchSuggestionStates,
                 searchBarFocused: false
-            }
-        });
-    };
-
-    listIsFocused = bool => {
-        this.setState({
-            showSearchSuggestionStates: {
-                ...this.state.showSearchSuggestionStates,
-                listFocused: bool
             }
         });
     };
@@ -197,22 +177,12 @@ class Search extends Component {
                     />
                     {
                         this.state.searchSuggestions.length && this.state.showSearchSuggestions && (this.state.showSearchSuggestionStates.searchBarFocused || this.state.showSearchSuggestionStates.listFocused) ?
-                            <div ref={this.setWrapperRef} className="search-suggestions-container">
-                                <List className="suggestion-list">
-                                    {this.state.searchSuggestions.map(artist =>
-                                        <Link key={artist.id} to={`/artist/${artist.id}/albums`} className="artist-link">
-                                            <ListItem button className="artist-item">
-                                                <Avatar className="artist-image" src={artist.image ? artist.image : "/assets/images/artist-default.png"}/>
-                                                <ListItemText color="primary" primary={<Typography noWrap>{artist.name}</Typography>}/>
-                                            </ListItem>
-                                        </Link>
-                                    )}
-                                </List>
+                            <div ref={this.setSuggestionsNode} className="search-suggestions-container">
+                                <SearchSuggestions searchSuggestions={this.state.searchSuggestions}/>
                             </div>
                             :
                             null
                     }
-                    <Typography align="center" color="error">{this.state.error}</Typography>
                 </form>
             </div>
         );

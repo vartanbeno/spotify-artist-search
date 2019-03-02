@@ -1,11 +1,11 @@
 export default class Artist {
 
-    constructor(id, name, image, numberOfFollowers, popularity) {
+    constructor(id, name, image, followers, rating) {
         this.id = id;
         this.name = name;
         this.image = image;
-        this.numberOfFollowers = numberOfFollowers;
-        this.popularity = popularity;
+        this.followers = followers;
+        this.rating = rating;
     }
 
 }

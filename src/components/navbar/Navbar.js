@@ -15,7 +15,7 @@ class Navbar extends Component {
                 <AppBar position="static" color="inherit">
                     <Toolbar className="navbar">
                         <Link to="/" className="title link">
-                            <img src="/assets/images/spotify-logo/spotify-logo-green.png" alt="Spotify Icon" className="spotify-logo"/>
+                            <img src="/assets/images/spotify-logo/spotify-logo-green.png" alt="Spotify Logo" className="spotify-logo"/>
                             <Typography variant="h5" color="inherit">
                                 Artist Search
                             </Typography>
