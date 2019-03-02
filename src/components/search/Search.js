@@ -148,8 +148,8 @@ class Search extends Component {
             <div className="search-input-container">
                 <form onSubmit={this.submitSearch}>
                     <RadioGroup className="radio-buttons-container" value={this.state.limit} onChange={this.setLimit}>
-                        <FormControlLabel control={<Radio color="primary"/>} label="10 results" value="10"/>
-                        <FormControlLabel control={<Radio color="primary"/>} label="20 results" value="20"/>
+                        <FormControlLabel control={<Radio color="primary"/>} label="10" value="10"/>
+                        <FormControlLabel control={<Radio color="primary"/>} label="20" value="20"/>
                         <FormControlLabel control={<Radio color="primary"/>} label="50 results" value="50"/>
                     </RadioGroup>
                     <TextField
