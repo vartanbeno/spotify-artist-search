@@ -1,68 +1,51 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Spotify Artist Search
 
-## Available Scripts
+This is a fun little project done to experiment with Spotify's API. It lets the user search for artists and view their albums.
 
-In the project directory, you can run:
+## Getting Started
 
-### `npm start`
+### Prerequisites
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**Important:** For the application to work, you must have a valid client ID placed in [src/config/spotify.json](src/config/spotify.json):
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+```
+{
+  "clientId": "Place your client id here"
+}
+```
 
-### `npm test`
+You must also make sure that `http://localhost:3000` (or wherever you're running the app from) is placed in its redirect URIs.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Here's how to set it all up:
 
-### `npm run build`
+1. Make a Spotify account.
+2. Go to the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/) and click on _Log In_.
+3. Once logged in, click on _Create a client ID_.
+4. Name it whatever you want, describe it however you want.
+5. Once created and on its page, click on the _Edit Settings_ button.
+6. In the _Redirect URIs_ section, add `http://localhost:3000` (or wherever you think is appropriate).
+7. Copy the client ID in [src/config/spotify.json](src/config/spotify.json).
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Docker
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```
+docker-compose up
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+You can also add `-d` or `--detach` to run in detached mode. The app can be viewed at [http://localhost](http://localhost).
 
-### `npm run eject`
+### Running
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+npm start
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Then head over to [http://localhost:3000](http://localhost:3000)
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Author
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- **Vartan Benohanian** - *ID:* 27492049
 
-## Learn More
+## License
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
