@@ -10,10 +10,10 @@ import Artist from './models/artist/Artist';
 import SpotifyService from './services/SpotifyService';
 import AuthService from './services/AuthService';
 import './App.scss';
-import Snackbar from '@material-ui/core/Snackbar';
 import Albums from './components/albums/Albums';
 import Album from './models/album/Album';
 import AlbumArtist from './models/album/AlbumArtist';
+import SnackbarWrapper from './components/snackbar-wrapper/SnackbarWrapper';
 
 const theme = createMuiTheme({
     palette: {
@@ -38,9 +38,7 @@ class App extends Component {
         isLoggedIn: AuthService.isLoggedIn(),
         searchResults: null,
         artistName: null,
-        albums: null,
-        snackbarOpen: false,
-        snackbarMessage: ''
+        albums: null
     };
 
     componentDidMount() {
@@ -64,14 +62,17 @@ class App extends Component {
         });
     };
 
+    setSnackbar = node => {
+        this.snackbar = node;
+    };
+
     searchArtists = (query, limit) => {
 
         if (!query.trim()) {
             this.setState({
-                searchResults: [],
-                snackbarOpen: true,
-                snackbarMessage: 'Your search doesn\'t contain anything!'
+                searchResults: []
             });
+            this.snackbar.open('Your search doesn\'t contain anything!');
             return;
         }
 
@@ -97,16 +98,13 @@ class App extends Component {
                 });
 
                 if (!artists.length) {
-                    this.setState({
-                        snackbarOpen: true,
-                        snackbarMessage: 'Your search didn\'t return any results.'
-                    });
+                    this.snackbar.open('Your search didn\'t return any results.');
                 }
 
             },
             err => {
                 this.setState({ searchResults: [] });
-                this.openSnackbar(err.response.data.error.message);
+                this.snackbar.open(err.response.data.error.message);
             }
         );
     };
@@ -117,7 +115,7 @@ class App extends Component {
             res => this.setState({ artistName: res.data.name }),
             err => {
                 this.setState({ artistName: '' });
-                this.openSnackbar(err.response.data.error.message);
+                this.snackbar.open(err.response.data.error.message);
             }
         );
     };
@@ -145,31 +143,15 @@ class App extends Component {
                 });
 
                 if (!albums.length) {
-                    this.setState({
-                        snackbarOpen: true,
-                        snackbarMessage: 'This artist doesn\'t have any albums.'
-                    });
+                    this.snackbar.open('This artist doesn\'t have any albums.');
                 }
 
             },
             err => {
                 this.setState({ albums: [] });
-                this.openSnackbar(err.response.data.error.message);
+                this.snackbar.open(err.response.data.error.message);
             }
         );
-    };
-
-    openSnackbar = message => {
-        this.setState({
-            snackbarOpen: true,
-            snackbarMessage: message
-        });
-    };
-
-    closeSnackbar = (e, reason) => {
-        if (reason !== 'clickaway') {
-            this.setState({ snackbarOpen: false });
-        }
     };
 
     render() {
@@ -194,17 +176,7 @@ class App extends Component {
                         )}/>
                     </div>
                 </Router>
-                <Snackbar
-                    className="snackbar"
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center',
-                    }}
-                    open={this.state.snackbarOpen}
-                    autoHideDuration={3000}
-                    onClose={this.closeSnackbar}
-                    message={<span>{this.state.snackbarMessage}</span>}
-                />
+                <SnackbarWrapper ref={this.setSnackbar}/>
             </MuiThemeProvider>
         );
     }
