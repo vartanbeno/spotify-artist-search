@@ -66,6 +66,10 @@ class App extends Component {
         this.snackbar = node;
     };
 
+    openSnackbar = message => {
+        this.snackbar.open(message);
+    };
+
     searchArtists = (query, limit) => {
 
         if (!query.trim()) {
@@ -163,13 +167,13 @@ class App extends Component {
                         <Route exact path="/" render={props => (
                             this.state.isLoggedIn ?
                                 <div className="search-container">
-                                    <Search/>
+                                    <Search openSnackbar={this.openSnackbar}/>
                                 </div>
                                 :
                                 <Login/>
                         )}/>
                         <Route exact path="/search" render={props => (
-                            this.state.isLoggedIn ? <SearchResults searchArtists={this.searchArtists} artists={this.state.searchResults}/> : null
+                            this.state.isLoggedIn ? <SearchResults searchArtists={this.searchArtists} artists={this.state.searchResults} openSnackbar={this.openSnackbar}/> : null
                         )}/>
                         <Route exact path="/artist/:id/albums" render={props => (
                             this.state.isLoggedIn ? <Albums getArtistNameById={this.getArtistNameById} artistName={this.state.artistName} getAlbumsByArtistId={this.getAlbumsByArtistId} albums={this.state.albums}/> : null

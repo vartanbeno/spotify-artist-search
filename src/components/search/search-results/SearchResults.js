@@ -26,12 +26,12 @@ class SearchResults extends Component {
 
     render() {
 
-        const { artists } = this.props;
+        const { artists, openSnackbar } = this.props;
 
         return (
             <div className="search-results-page">
                 <div className="search-field">
-                    {this.state.q != null ? <Search query={this.state.q} searchArtists={this.searchArtists}/> : null}
+                    {this.state.q != null ? <Search query={this.state.q} searchArtists={this.searchArtists} openSnackbar={openSnackbar}/> : null}
                 </div>
                 <div className="search-results-container">
                     {

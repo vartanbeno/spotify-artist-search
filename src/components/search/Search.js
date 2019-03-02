@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormControlLabel, IconButton, InputAdornment, Radio, RadioGroup, Typography } from '@material-ui/core';
+import { FormControlLabel, IconButton, InputAdornment, Radio, RadioGroup } from '@material-ui/core';
 import './Search.scss';
 import TextField from '@material-ui/core/TextField';
 import SearchOutlined from '@material-ui/icons/SearchOutlined';
@@ -19,24 +19,31 @@ class Search extends Component {
             searchBarFocused: false,
             listFocused: false
         },
-        searchSuggestions: [],
-        error: null
+        searchSuggestions: []
     };
 
     componentDidMount() {
-        document.addEventListener('mousedown', this.handleClickOutsideList);
-        document.addEventListener('mousedown', this.handleClickInsideList);
-        document.addEventListener("keydown", this.hideListOnEsc);
+        this.addListeners();
         if (this.props.query) {
             this.setState({ q: this.props.query });
         }
     }
 
     componentWillUnmount() {
+        this.removeListeners();
+    }
+
+    addListeners = () => {
+        document.addEventListener('mousedown', this.handleClickOutsideList);
+        document.addEventListener('mousedown', this.handleClickInsideList);
+        document.addEventListener("keydown", this.hideListOnEsc);
+    };
+
+    removeListeners = () => {
         document.removeEventListener('mousedown', this.handleClickOutsideList);
         document.removeEventListener('mousedown', this.handleClickInsideList);
         document.removeEventListener("keydown", this.hideListOnEsc);
-    }
+    };
 
     setSuggestionsNode = node => {
         this.wrapperRef = node;
@@ -66,7 +73,6 @@ class Search extends Component {
             return;
         }
         this.setState({
-            error: null,
             [e.target.name]: e.target.value
         }, () => this.searchAsYouType(this.state.q));
     };
@@ -80,7 +86,7 @@ class Search extends Component {
     submitSearch = e => {
         e.preventDefault();
         if (!this.state.q.trim()) {
-            this.setState({ error: 'Must provide a search query.' });
+            this.props.openSnackbar('You must provide a search query.');
             return;
         }
         clearTimeout(this.state.searchAsYouType);
@@ -115,12 +121,11 @@ class Search extends Component {
 
                         this.setState({
                             showSearchSuggestions: true,
-                            searchSuggestions: artists,
-                            error: null
+                            searchSuggestions: artists
                         });
 
                     },
-                    err => this.setState({ error: err.response.data.error.message })
+                    err => this.props.openSnackbar(err.response.data.error.message)
                 );
             }, 350)
         })
@@ -193,7 +198,6 @@ class Search extends Component {
                             :
                             null
                     }
-                    <Typography align="center" color="error">{this.state.error}</Typography>
                 </form>
             </div>
         );
