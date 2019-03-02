@@ -201,9 +201,9 @@ class Search extends Component {
                                 <List className="suggestion-list">
                                     {this.state.searchSuggestions.map(artist =>
                                         <Link key={artist.id} to={`/artist/${artist.id}/albums`} className="artist-link">
-                                            <ListItem button>
-                                                <Avatar src={artist.image ? artist.image : "/assets/images/artist-default.png"}/>
-                                                <ListItemText color="primary" primary={artist.name}/>
+                                            <ListItem button className="artist-item">
+                                                <Avatar className="artist-image" src={artist.image ? artist.image : "/assets/images/artist-default.png"}/>
+                                                <ListItemText color="primary" primary={<Typography noWrap>{artist.name}</Typography>}/>
                                             </ListItem>
                                         </Link>
                                     )}
