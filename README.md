@@ -40,11 +40,21 @@ You can also add `-d` or `--detach` to run in detached mode. The app can be view
 npm start
 ```
 
-Then head over to [http://localhost:3000](http://localhost:3000)
+Then head over to [http://localhost:3000](http://localhost:3000).
+
+## Demo
+
+![image](https://user-images.githubusercontent.com/23425661/53673452-9ae38700-3c55-11e9-9325-b403cb335721.png)
+
+![image](https://user-images.githubusercontent.com/23425661/53673469-c49cae00-3c55-11e9-8567-eac3f9a7a52e.png)
+
+![image](https://user-images.githubusercontent.com/23425661/53673478-d8e0ab00-3c55-11e9-9b55-d62f683ba91f.png)
+
+![image](https://user-images.githubusercontent.com/23425661/53673488-e5650380-3c55-11e9-8a23-a1ae0f5f8b27.png)
 
 ## Author
 
-- **Vartan Benohanian** - *ID:* 27492049
+- **Vartan Benohanian**
 
 ## License
 
