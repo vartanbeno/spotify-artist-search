@@ -44,13 +44,13 @@ Then head over to [http://localhost:3000](http://localhost:3000).
 
 ## Demo
 
-![image](https://user-images.githubusercontent.com/23425661/53673452-9ae38700-3c55-11e9-9325-b403cb335721.png)
+![image](https://user-images.githubusercontent.com/23425661/53689502-9ededa00-3d25-11e9-9f5c-fad1e1480ff3.png)
 
-![image](https://user-images.githubusercontent.com/23425661/53686095-15adb000-3cf1-11e9-8eee-cf051f1a4a34.png)
+![image](https://user-images.githubusercontent.com/23425661/53689505-a9996f00-3d25-11e9-838d-c79947598049.png)
 
-![image](https://user-images.githubusercontent.com/23425661/53673478-d8e0ab00-3c55-11e9-9b55-d62f683ba91f.png)
+![image](https://user-images.githubusercontent.com/23425661/53689509-bcac3f00-3d25-11e9-9162-662589e7caf4.png)
 
-![image](https://user-images.githubusercontent.com/23425661/53686076-daab7c80-3cf0-11e9-997a-26ebd9ad7d11.png)
+![image](https://user-images.githubusercontent.com/23425661/53689511-c2098980-3d25-11e9-922c-3c6bc7748081.png)
 
 ## Author
 
