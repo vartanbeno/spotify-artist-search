@@ -18,6 +18,22 @@
         }
     }
 
+    .navbar-buttons {
+        display: flex;
+        align-items: center;
+
+        div {
+            &:not(:last-child) {
+                margin-right: 1.5rem;
+            }
+        }
+
+        .navbar-theme-toggle {
+            display: flex;
+            align-items: center;
+        }
+    }
+
     .link {
         text-decoration: none;
         color: inherit;

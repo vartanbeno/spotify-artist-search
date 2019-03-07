@@ -15,4 +15,12 @@ export default class ThemeService {
         window.localStorage.removeItem(this.THEME_KEY);
     }
 
+    static switchMode(bool) {
+        if (bool) {
+            this.setDarkMode();
+        } else {
+            this.unsetDarkMode();
+        }
+    }
+
 }

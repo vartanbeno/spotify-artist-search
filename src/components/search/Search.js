@@ -7,6 +7,24 @@ import { withRouter } from 'react-router-dom';
 import SpotifyService from '../../services/SpotifyService';
 import ArtistSuggestion from '../../models/artist/ArtistSuggestion';
 import SearchSuggestions from './search-suggestions/SearchSuggestions';
+import createStyles from '@material-ui/core/styles/createStyles';
+import withStyles from '@material-ui/core/styles/withStyles';
+
+const style = theme => createStyles({
+    root: {
+        color: theme.palette.text.primary,
+        '&$checked': {
+            color: theme.palette.primary.main,
+        },
+    },
+    checked: {},
+    input: {
+        color: theme.palette.common.black,
+        '&::placeholder': {
+            color: theme.palette.common.black
+        }
+    }
+});
 
 class Search extends Component {
 
@@ -148,9 +166,9 @@ class Search extends Component {
             <div className="search-input-container">
                 <form onSubmit={this.submitSearch}>
                     <RadioGroup className="radio-buttons-container" value={this.state.limit} onChange={this.setLimit}>
-                        <FormControlLabel control={<Radio color="primary"/>} label="10" value="10"/>
-                        <FormControlLabel control={<Radio color="primary"/>} label="20" value="20"/>
-                        <FormControlLabel control={<Radio color="primary"/>} label="50 results" value="50"/>
+                        <FormControlLabel control={<Radio classes={{ root: this.props.classes.root, checked: this.props.classes.checked }}/>} label="10" value="10"/>
+                        <FormControlLabel control={<Radio classes={{ root: this.props.classes.root, checked: this.props.classes.checked }}/>} label="20" value="20"/>
+                        <FormControlLabel control={<Radio classes={{ root: this.props.classes.root, checked: this.props.classes.checked }}/>} label="50 results" value="50"/>
                     </RadioGroup>
                     <TextField
                         className="search-input"
@@ -171,7 +189,8 @@ class Search extends Component {
                                         <SearchOutlined/>
                                     </IconButton>
                                 </InputAdornment>
-                            )
+                            ),
+                            classes: { input: this.props.classes.input }
                         }}
                     />
                     {
@@ -188,4 +207,4 @@ class Search extends Component {
     }
 }
 
-export default withRouter(Search);
+export default withRouter(withStyles(style)(Search));
