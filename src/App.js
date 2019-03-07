@@ -11,18 +11,50 @@ import './App.scss';
 import Albums from './components/albums/Albums';
 import SnackbarWrapper from './components/snackbar-wrapper/SnackbarWrapper';
 import PageNotFound from './components/page-not-found/PageNotFound';
+import ThemeService from './services/ThemeService';
 
-const theme = createMuiTheme({
+const light = createMuiTheme({
     palette: {
         primary: {
             /**
              * Spotify's official green
              * Source: https://developer.spotify.com/branding-guidelines/
              */
-            main: '#1DB954'
+            main: '#1db954'
         },
         secondary: lightGreen,
-        error: red
+        text: {
+            hint: '#f0f0f0'
+        },
+        error: red,
+        background: {
+            default: '#f5f8fa',
+            paper: '#fff',
+            search: '#fff',
+            listItem: '#ebebeb'
+        }
+    },
+    typography: {
+        useNextVariants: true
+    }
+});
+
+const dark = createMuiTheme({
+    palette: {
+        primary: light.palette.primary,
+        secondary: lightGreen,
+        text: {
+            primary: '#fff',
+            secondary: '#d0d0d0',
+            hint: '#414141'
+        },
+        error: red,
+        background: {
+            default: '#1c1c1c',
+            paper: '#000',
+            search: '#282828',
+            listItem: '#2f2f2f'
+        }
     },
     typography: {
         useNextVariants: true
@@ -32,7 +64,8 @@ const theme = createMuiTheme({
 class App extends Component {
 
     state = {
-        isLoggedIn: AuthService.isLoggedIn()
+        isLoggedIn: AuthService.isLoggedIn(),
+        theme: ThemeService.isDarkMode() ? dark : light
     };
 
     componentDidMount() {
@@ -64,12 +97,17 @@ class App extends Component {
         this.snackbar.open(message);
     };
 
+    setDarkMode = bool => {
+        this.setState({ theme: bool ? dark : light });
+        ThemeService.switchMode(bool);
+    };
+
     render() {
         return (
-            <MuiThemeProvider theme={theme}>
+            <MuiThemeProvider theme={this.state.theme}>
                 <Router>
-                    <div className="App">
-                        <Navbar logout={this.logout} isLoggedIn={this.state.isLoggedIn}/>
+                    <div className="App" style={{ backgroundColor: this.state.theme.palette.background.default }}>
+                        <Navbar logout={this.logout} isLoggedIn={this.state.isLoggedIn} setDarkMode={this.setDarkMode} darkMode={ThemeService.isDarkMode()}/>
 
                         <Switch>
                             <Route exact path="/" render={props => (

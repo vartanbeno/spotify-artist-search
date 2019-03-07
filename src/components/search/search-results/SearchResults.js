@@ -24,10 +24,12 @@ class SearchResults extends Component {
 
     setQueryAndLimit = () => {
         const { q, limit } = SpotifyService.getQueryAndLimitParameters();
-        this.setState({
-            q: q,
-            limit: Number(limit)
-        }, () => this.searchArtists(this.state.q, this.state.limit));
+        if (!(q === this.state.q && Number(limit) === this.state.limit)) {
+            this.setState({
+                q: q,
+                limit: Number(limit)
+            }, () => this.searchArtists(this.state.q, this.state.limit));
+        }
     };
 
     searchArtists = (query, limit) => {

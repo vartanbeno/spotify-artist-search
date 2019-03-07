@@ -7,6 +7,14 @@ import CardContent from '@material-ui/core/CardContent';
 import AudiotrackIcon from '@material-ui/icons/Audiotrack';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import { Link } from 'react-router-dom';
+import createStyles from '@material-ui/core/styles/createStyles';
+import withStyles from '@material-ui/core/styles/withStyles';
+
+const style = theme => createStyles({
+    root: {
+        borderTop: '1px solid ' + theme.palette.text.hint
+    }
+});
 
 class Album extends Component {
 
@@ -35,7 +43,7 @@ class Album extends Component {
                         </div>
                     </CardContent>
                 </div>
-                <CardActionArea className="album-preview" href={url} target="_blank" style={{ textAlign: 'center', padding: 8 }}>
+                <CardActionArea className={this.props.classes.root} href={url} target="_blank" style={{ textAlign: 'center', padding: 8 }}>
                         <Typography color="primary" variant="body2" style={{ textTransform: 'uppercase' }}>Preview on Spotify</Typography>
                 </CardActionArea>
             </Card>
@@ -43,4 +51,4 @@ class Album extends Component {
     }
 }
 
-export default Album;
+export default withStyles(style)(Album);
