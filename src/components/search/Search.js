@@ -18,10 +18,14 @@ const style = theme => createStyles({
         },
     },
     checked: {},
+    search: {
+        backgroundColor: theme.palette.background.search,
+        borderRadius: 4
+    },
     input: {
-        color: theme.palette.common.black,
+        color: theme.palette.text.primary,
         '&::placeholder': {
-            color: theme.palette.common.black
+            color: theme.palette.text.primary
         }
     }
 });
@@ -171,7 +175,7 @@ class Search extends Component {
                         <FormControlLabel control={<Radio classes={{ root: this.props.classes.root, checked: this.props.classes.checked }}/>} label="50 results" value="50"/>
                     </RadioGroup>
                     <TextField
-                        className="search-input"
+                        className={this.props.classes.search}
                         fullWidth={true}
                         placeholder="Search for an Artist"
                         name="q"
@@ -186,7 +190,7 @@ class Search extends Component {
                             endAdornment: (
                                 <InputAdornment position="end">
                                     <IconButton onClick={this.submitSearch}>
-                                        <SearchOutlined/>
+                                        <SearchOutlined color="primary"/>
                                     </IconButton>
                                 </InputAdornment>
                             ),

@@ -29,7 +29,8 @@ const light = createMuiTheme({
         error: red,
         background: {
             default: '#f5f8fa',
-            paper: '#fff'
+            paper: '#fff',
+            search: '#fff'
         }
     },
     typography: {
@@ -48,8 +49,9 @@ const dark = createMuiTheme({
         },
         error: red,
         background: {
-            default: '#313131',
-            paper: '#000'
+            default: '#1c1c1c',
+            paper: '#000',
+            search: '#282828'
         }
     },
     typography: {
