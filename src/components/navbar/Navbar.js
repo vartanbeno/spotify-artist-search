@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import './Navbar.scss';
-import { AppBar, Button, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Button, IconButton, Toolbar, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import Switch from '@material-ui/core/Switch';
-import FlashOnIcon from '@material-ui/icons/FlashOnRounded';
 import FlashOffIcon from '@material-ui/icons/FlashOffRounded';
+import SunIcon from '@material-ui/icons/WbSunnyRounded';
 
 class Navbar extends Component {
 
@@ -12,8 +11,12 @@ class Navbar extends Component {
         this.props.logout();
     };
 
-    handleChange = e => {
-        this.props.setDarkMode(e.target.checked);
+    makeDark = e => {
+        this.props.setDarkMode(true);
+    };
+
+    makeLight = e => {
+        this.props.setDarkMode(false);
     };
 
     render() {
@@ -28,15 +31,20 @@ class Navbar extends Component {
                             </Typography>
                         </Link>
                         <div className="navbar-buttons">
-                            <div className="navbar-theme-toggle">
-                                <FlashOnIcon color="primary"/>
-                                <Switch
-                                    checked={this.props.darkMode}
-                                    onChange={this.handleChange}
-                                    color="primary"
-                                />
-                                <FlashOffIcon color="primary"/>
-                            </div>
+                            {
+                                this.props.darkMode ?
+                                    <div>
+                                        <IconButton onClick={this.makeLight} color="primary" style={{ padding: 8 }}>
+                                            <SunIcon/>
+                                        </IconButton>
+                                    </div>
+                                    :
+                                    <div>
+                                        <IconButton onClick={this.makeDark} color="primary" style={{ padding: 8 }}>
+                                            <FlashOffIcon/>
+                                        </IconButton>
+                                    </div>
+                            }
                             {this.props.isLoggedIn ? <div><Link to="/" className="link"><Button onClick={this.logout} variant="text">Logout</Button></Link></div> : null}
                         </div>
                     </Toolbar>
