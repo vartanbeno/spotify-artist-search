@@ -12,7 +12,7 @@ const SearchSuggestions = props => {
                     <ListItem button className="artist-item">
                         <Avatar className="artist-image"
                                 src={artist.image ? artist.image : "/assets/images/artist-default.png"}/>
-                        <ListItemText color="primary" primary={<Typography noWrap>{artist.name}</Typography>}/>
+                        <ListItemText primary={<Typography color="inherit" noWrap>{artist.name}</Typography>}/>
                     </ListItem>
                 </Link>
             )}
