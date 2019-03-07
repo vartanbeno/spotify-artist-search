@@ -30,7 +30,8 @@ const light = createMuiTheme({
         background: {
             default: '#f5f8fa',
             paper: '#fff',
-            search: '#fff'
+            search: '#fff',
+            listItem: '#ebebeb'
         }
     },
     typography: {
@@ -51,7 +52,8 @@ const dark = createMuiTheme({
         background: {
             default: '#1c1c1c',
             paper: '#000',
-            search: '#282828'
+            search: '#282828',
+            listItem: '#2f2f2f'
         }
     },
     typography: {
