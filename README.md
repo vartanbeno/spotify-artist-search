@@ -44,13 +44,23 @@ Then head over to [http://localhost:3000](http://localhost:3000).
 
 ## Demo
 
-![image](https://user-images.githubusercontent.com/23425661/53689502-9ededa00-3d25-11e9-9f5c-fad1e1480ff3.png)
+Login             |  Search Suggestions
+:-------------------------:|:-------------------------:
+![](https://user-images.githubusercontent.com/23425661/53997084-dfb16700-4108-11e9-9bf6-d13a19d45123.png)  |  ![](https://user-images.githubusercontent.com/23425661/53997113-f5269100-4108-11e9-8f53-06ce272eb526.png)
 
-![image](https://user-images.githubusercontent.com/23425661/53689505-a9996f00-3d25-11e9-838d-c79947598049.png)
+Search Results             |  Artist Albums
+:-------------------------:|:-------------------------:
+![](https://user-images.githubusercontent.com/23425661/53997119-fb1c7200-4108-11e9-9a2b-658976f2eee1.png)  |  ![](https://user-images.githubusercontent.com/23425661/53997120-feaff900-4108-11e9-9664-a151c67415c8.png)
 
-![image](https://user-images.githubusercontent.com/23425661/53689509-bcac3f00-3d25-11e9-9162-662589e7caf4.png)
+## Demo (dark theme)
 
-![image](https://user-images.githubusercontent.com/23425661/53689511-c2098980-3d25-11e9-922c-3c6bc7748081.png)
+Login             |  Search Suggestions
+:-------------------------:|:-------------------------:
+![](https://user-images.githubusercontent.com/23425661/53996606-15ede700-4107-11e9-8f9a-38246903385f.png)  |  ![](https://user-images.githubusercontent.com/23425661/53997158-1dae8b00-4109-11e9-8cd0-57efe0c8510f.png)
+
+Search Results             |  Artist Albums
+:-------------------------:|:-------------------------:
+![](https://user-images.githubusercontent.com/23425661/53996631-30c05b80-4107-11e9-9c82-c995dba2020a.png)  |  ![](https://user-images.githubusercontent.com/23425661/53996643-3cac1d80-4107-11e9-91ba-3e2684c3b652.png)
 
 ## Author
 
