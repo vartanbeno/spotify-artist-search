@@ -16,15 +16,15 @@ class SearchResult extends Component {
 
         return (
             <Card className="card" elevation={3}>
-                <CardActionArea>
-                    <Link to={`/artist/${id}/albums`}  style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link to={`/artist/${id}/albums`}  style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <CardActionArea>
                         <CardMedia className="artist-picture" image={image} title={name}/>
-                        <CardContent>
-                            <Typography variant="h6" noWrap>{name}</Typography>
-                            <Typography variant="body2" className="artist-followers"><PeopleIcon/>&nbsp;{followers.toLocaleString()} followers</Typography>
-                        </CardContent>
-                    </Link>
-                </CardActionArea>
+                            <CardContent>
+                                <Typography variant="h6" noWrap>{name}</Typography>
+                                <Typography variant="body2" className="artist-followers"><PeopleIcon/>&nbsp;{followers.toLocaleString()} followers</Typography>
+                            </CardContent>
+                    </CardActionArea>
+                </Link>
                 <CardActions className="artist-stars">
                     <Rating rating={rating}/>
                 </CardActions>
