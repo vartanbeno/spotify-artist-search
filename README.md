@@ -44,23 +44,23 @@ Then head over to [http://localhost:3000](http://localhost:3000).
 
 ## Demo
 
-Login             |  Search Suggestions
+Login                      | Search Suggestions
 :-------------------------:|:-------------------------:
-![](https://user-images.githubusercontent.com/23425661/53997084-dfb16700-4108-11e9-9bf6-d13a19d45123.png)  |  ![](https://user-images.githubusercontent.com/23425661/53997113-f5269100-4108-11e9-8f53-06ce272eb526.png)
+![](https://user-images.githubusercontent.com/23425661/53997084-dfb16700-4108-11e9-9bf6-d13a19d45123.png)  |  ![](https://user-images.githubusercontent.com/23425661/53998499-ef7f7a00-410d-11e9-9b78-947531795794.png)
 
-Search Results             |  Artist Albums
+Search Results             | Artist Albums
 :-------------------------:|:-------------------------:
-![](https://user-images.githubusercontent.com/23425661/53997119-fb1c7200-4108-11e9-9a2b-658976f2eee1.png)  |  ![](https://user-images.githubusercontent.com/23425661/53997120-feaff900-4108-11e9-9664-a151c67415c8.png)
+![](https://user-images.githubusercontent.com/23425661/53998505-f4442e00-410d-11e9-8c6b-405494313f60.png)  |  ![](https://user-images.githubusercontent.com/23425661/53998509-f73f1e80-410d-11e9-9f16-d01865a0acd6.png)
 
 ## Demo (dark theme)
 
-Login             |  Search Suggestions
+Login                      | Search Suggestions
 :-------------------------:|:-------------------------:
-![](https://user-images.githubusercontent.com/23425661/53996606-15ede700-4107-11e9-8f9a-38246903385f.png)  |  ![](https://user-images.githubusercontent.com/23425661/53997158-1dae8b00-4109-11e9-8cd0-57efe0c8510f.png)
+![](https://user-images.githubusercontent.com/23425661/53996606-15ede700-4107-11e9-8f9a-38246903385f.png)  |  ![](https://user-images.githubusercontent.com/23425661/53998514-fd34ff80-410d-11e9-82d3-7c2679922617.png)
 
-Search Results             |  Artist Albums
+Search Results             | Artist Albums
 :-------------------------:|:-------------------------:
-![](https://user-images.githubusercontent.com/23425661/53996631-30c05b80-4107-11e9-9c82-c995dba2020a.png)  |  ![](https://user-images.githubusercontent.com/23425661/53996643-3cac1d80-4107-11e9-91ba-3e2684c3b652.png)
+![](https://user-images.githubusercontent.com/23425661/53998521-00c88680-410e-11e9-8632-5e4df64c4742.png)  |  ![](https://user-images.githubusercontent.com/23425661/53998522-032ae080-410e-11e9-8384-75ed4f16929a.png)
 
 ## Author
 

@@ -31,6 +31,7 @@ class Navbar extends Component {
                             </Typography>
                         </Link>
                         <div className="navbar-buttons">
+                            {this.props.isLoggedIn ? <div><Link to="/" className="link"><Button onClick={this.logout} variant="text" size="small">Logout</Button></Link></div> : null}
                             {
                                 this.props.darkMode ?
                                     <div>
@@ -45,7 +46,6 @@ class Navbar extends Component {
                                         </IconButton>
                                     </div>
                             }
-                            {this.props.isLoggedIn ? <div><Link to="/" className="link"><Button onClick={this.logout} variant="text">Logout</Button></Link></div> : null}
                         </div>
                     </Toolbar>
                 </AppBar>
