@@ -50,9 +50,9 @@ const dark = createMuiTheme({
         },
         error: red,
         background: {
-            default: '#1c1c1c',
+            default: '#262626',
             paper: '#000',
-            search: '#282828',
+            search: '#1c1c1c',
             listItem: '#2f2f2f'
         }
     },
