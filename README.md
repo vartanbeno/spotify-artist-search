@@ -2,7 +2,7 @@
 
 This is a fun little project done to experiment with Spotify's API. It lets the user search for artists and view their albums.
 
-The project is currently hosted [here](http://vartanbeno.com:12000/).
+The project is currently hosted [here](http://spotifyartistsearch.vartanbeno.com).
 
 ## Getting Started
 
